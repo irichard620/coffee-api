@@ -9,7 +9,10 @@
   "main": "app.js",
   "dependencies": {
     "connect": "^3.3.5",
-    "swagger-connect": "^0.1.0"
+    "dotenv": "^8.0.0",
+    "mongodb": "^3.2.7",
+    "swagger-connect": "^0.1.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "should": "^7.1.0",

@@ -1,6 +1,9 @@
 'use strict';
 
 var SwaggerConnect = require('swagger-connect');
+require('dotenv').config()
+const initDb = require("./api/db/db").initDb;
+const getDb = require("./api/db/db").getDb;
 var app = require('connect')();
 module.exports = app; // for testing
 
@@ -15,9 +18,13 @@ SwaggerConnect.create(config, function(err, swaggerConnect) {
   swaggerConnect.register(app);
 
   var port = process.env.PORT || 10010;
-  app.listen(port);
 
-  if (swaggerConnect.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
-  }
+  initDb(function (err) {
+    app.listen(port, function (err) {
+      if (err) {
+          throw err;
+      }
+      console.log("API Up and running on port " + port);
+    });
+  });
 });

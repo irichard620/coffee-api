@@ -1,12 +1,12 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Hello World App
+  title: coffee-api
 # during dev, should point to your local machine
 host: localhost:10010
-# basePath prefixes all resource paths 
+# basePath prefixes all resource paths
 basePath: /
-# 
+#
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -18,43 +18,202 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+  /sponsors:
+    x-swagger-router-controller: sponsors
     get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+      description: Returns all sponsors
+      operationId: getSponsors
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
+            title: List of active sponsors
+            type: array
+            items:
+              $ref: "#/definitions/Sponsor"
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            description: Error message
+            type: string
+    post:
+      description: Create new sponsor
+      operationId: createSponsor
+      parameters:
+        - in: body
+          name: body
+          description: Sponsor object
+          required: true
+          schema:
+            $ref: "#/definitions/Sponsor"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /sponsors/{sponsorID}:
+    x-swagger-router-controller: sponsors
+    get:
+      description: Returns all info for one sponsor
+      operationId: getSponsor
+      parameters:
+        - in: path
+          name: sponsorID
+          description: ID of sponsor
+          required: true
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Sponsor"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /beans:
+    x-swagger-router-controller: beans
+    post:
+      description: Create new bean
+      operationId: createBean
+      parameters:
+        - in: body
+          name: body
+          description: Bean object
+          required: true
+          schema:
+            $ref: "#/definitions/Bean"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /recipes:
+    x-swagger-router-controller: recipes
+    post:
+      description: Create new recipe
+      operationId: createRecipe
+      parameters:
+        - in: body
+          name: body
+          description: Recipe object
+          required: true
+          schema:
+            $ref: "#/definitions/Recipe"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
-# complex objects have schema definitions
+
 definitions:
-  HelloWorldResponse:
+  Sponsor:
     required:
-      - message
+      - company
+      - location
+      - description
+      - status
     properties:
-      message:
+      _id:
         type: string
-  ErrorResponse:
+        format: uuid
+      logo_link:
+        type: string
+      company:
+        type: string
+      location:
+        type: string
+      description:
+        type: string
+      beans:
+        type: array
+        items:
+          $ref: "#/definitions/Bean"
+      recipes:
+        type: array
+        items:
+          $ref: "#/definitions/Recipe"
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+  Bean:
     required:
-      - message
+      - sponsor_id
+      - title
+      - description
+      - bean_link
+      - status
     properties:
-      message:
+      _id:
         type: string
+        format: uuid
+      sponsor_id:
+        type: string
+        format: uuid
+      image_link:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      bean_link:
+        type: string
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+  Recipe:
+    required:
+      - brewing_vessel
+      - filter_type
+      - title
+      - grams_coffee
+      - grind_type
+      - grams_water
+      - water_temp
+      - status
+    properties:
+      _id:
+        type: string
+        format: uuid
+      sponsor_id:
+        type: string
+        format: uuid
+      brewing_vessel:
+        type: string
+      filter_type:
+        type: string
+      title:
+        type: string
+      grams_coffee:
+        type: integer
+      grind_type:
+        type: string
+      grams_water:
+        type: integer
+      water_temp:
+        type: integer
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
