@@ -141,6 +141,8 @@ definitions:
         format: uuid
       logo_link:
         type: string
+      background_link:
+        type: string
       company:
         type: string
       location:
@@ -163,7 +165,6 @@ definitions:
       - sponsor_id
       - title
       - description
-      - bean_link
       - status
     properties:
       _id:
@@ -186,12 +187,15 @@ definitions:
   Recipe:
     required:
       - brewing_vessel
+      - vessel_id
       - filter_type
-      - title
-      - grams_coffee
-      - grind_type
-      - grams_water
+      - orientation
+      - recipe_name
+      - total_coffee
+      - grind_size
+      - total_water
       - water_temp
+      - steps
       - status
     properties:
       _id:
@@ -202,18 +206,40 @@ definitions:
         format: uuid
       brewing_vessel:
         type: string
+      vessel_id:
+        type: string
       filter_type:
         type: string
-      title:
+      orientation:
         type: string
-      grams_coffee:
-        type: integer
-      grind_type:
+      recipe_name:
         type: string
-      grams_water:
-        type: integer
+      total_coffee:
+        type: string
+      grind_size:
+        type: string
+      total_water:
+        type: string
       water_temp:
-        type: integer
+        type: string
+      steps:
+        type: array
+        items:
+          $ref: "#/definitions/Step"
       status:
         type: string
         enum: ["ACTIVE", "INACTIVE"]
+  Step:
+    required:
+      - title
+      - type
+    properties:
+      _id:
+        type: string
+        format: uuid
+      title:
+        type: string
+      type:
+        type: string
+      properties:
+        type: object

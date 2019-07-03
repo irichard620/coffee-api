@@ -27,20 +27,44 @@ function getSponsors(req, res) {
 
 function getSponsor(req, res) {
   const db = getDb();
-  const collection = db.collection('sponsors');
-  collection.findOne({_id: req.swagger.params.sponsorID.value}, (err, item) => {
+  const sponsorCollection = db.collection('sponsors');
+  const beanCollection = db.collection('beans');
+  const recipeCollection = db.collection('recipes');
+
+  const sponsorID = req.swagger.params.sponsorID.value
+  sponsorCollection.findOne({_id: sponsorID}, (err, item) => {
     if (err) {
       console.log(err);
       res.status(500);
       res.json(err);
     } else if (!item) {
-      console.log("Sponsor with ID not found: " + req.swagger.params.sponsorID.value);
+      console.log("Sponsor with ID not found: " + sponsorID);
       res.status(404);
       res.json("Not found!");
     } else {
-      console.log(item);
-      res.status(200);
-      res.json(item);
+      // Now, get beans
+      beanCollection.find({sponsor_id: sponsorID}).toArray((err, beanItems) => {
+        if (err) {
+          console.log(err);
+          res.status(500);
+          res.json(err);
+        } else {
+          item["beans"] = beanItems
+          // Now, get recipes
+          recipeCollection.find({sponsor_id: sponsorID}).toArray((err, recipeItems) => {
+            if (err) {
+              console.log(err);
+              res.status(500);
+              res.json(err);
+            } else {
+              item["recipes"] = recipeItems
+              console.log(item);
+              res.status(200);
+              res.json(item);
+            }
+          });
+        }
+      });
     }
   });
 }
