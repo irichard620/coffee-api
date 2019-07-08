@@ -32,7 +32,7 @@ function getSponsor(req, res) {
   const recipeCollection = db.collection('recipes');
 
   const sponsorID = req.swagger.params.sponsorID.value
-  sponsorCollection.findOne({_id: sponsorID}, (err, item) => {
+  sponsorCollection.findOne({sponsor_id: sponsorID}, (err, item) => {
     if (err) {
       console.log(err);
       res.status(500);

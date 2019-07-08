@@ -136,7 +136,7 @@ definitions:
       - description
       - status
     properties:
-      _id:
+      sponsor_id:
         type: string
         format: uuid
       logo_link:
@@ -167,7 +167,7 @@ definitions:
       - description
       - status
     properties:
-      _id:
+      bean_id:
         type: string
         format: uuid
       sponsor_id:
@@ -198,7 +198,7 @@ definitions:
       - steps
       - status
     properties:
-      _id:
+      recipe_id:
         type: string
         format: uuid
       sponsor_id:
@@ -234,7 +234,7 @@ definitions:
       - title
       - type
     properties:
-      _id:
+      step_id:
         type: string
         format: uuid
       title:

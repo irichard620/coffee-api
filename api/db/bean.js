@@ -4,10 +4,10 @@ module.exports = getBeanDoc
 
 function getBeanDoc(beanModel) {
   let dbDoc = {}
-  if (!beanModel.id) {
-    dbDoc["_id"] = uuidv4();
+  if (!beanModel.bean_id) {
+    dbDoc["bean_id"] = uuidv4();
   } else {
-    dbDoc["_id"] = beanModel.id
+    dbDoc["bean_id"] = beanModel.bean_id
   }
   dbDoc["sponsor_id"] = beanModel.sponsor_id
   dbDoc["image_link"] = beanModel.image_link || ""

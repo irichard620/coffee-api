@@ -4,10 +4,10 @@ module.exports = getSponsorDoc
 
 function getSponsorDoc(sponsorModel) {
   let dbDoc = {}
-  if (!sponsorModel.id) {
-    dbDoc["_id"] = uuidv4();
+  if (!sponsorModel.sponsor_id) {
+    dbDoc["sponsor_id"] = uuidv4();
   } else {
-    dbDoc["_id"] = sponsorModel.id
+    dbDoc["sponsor_id"] = sponsorModel.sponsor_id
   }
   dbDoc["logo_link"] = sponsorModel.logo_link || ""
   dbDoc["background_link"] = sponsorModel.background_link || ""

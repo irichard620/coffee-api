@@ -4,10 +4,10 @@ module.exports = getRecipeDoc
 
 function getRecipeDoc(recipeModel) {
   let dbDoc = {}
-  if (!recipeModel.id) {
-    dbDoc["_id"] = uuidv4();
+  if (!recipeModel.recipe_id) {
+    dbDoc["recipe_id"] = uuidv4();
   } else {
-    dbDoc["_id"] = recipeModel.id
+    dbDoc["recipe_id"] = recipeModel.recipe_id
   }
   dbDoc["sponsor_id"] = recipeModel.sponsor_id || ""
   dbDoc["brewing_vessel"] = recipeModel.brewing_vessel
@@ -23,17 +23,17 @@ function getRecipeDoc(recipeModel) {
   for (step of recipeModel.steps) {
     stepsToAdd.push(getStepDoc(step))
   }
-  dbDoc["steps"] = recipeModel.steps
+  dbDoc["steps"] = stepsToAdd
   dbDoc["status"] = recipeModel.status
   return dbDoc
 }
 
 function getStepDoc(stepModel) {
   let dbDoc = {}
-  if (!stepModel.id) {
-    dbDoc["_id"] = uuidv4();
+  if (!stepModel.step_id) {
+    dbDoc["step_id"] = uuidv4();
   } else {
-    dbDoc["_id"] = stepModel.id
+    dbDoc["step_id"] = stepModel.step_id
   }
   dbDoc["title"] = stepModel.title
   dbDoc["type"] = stepModel.type
