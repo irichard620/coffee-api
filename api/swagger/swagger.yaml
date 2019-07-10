@@ -125,6 +125,22 @@ paths:
           schema:
             description: Error message
             type: string
+    get:
+      description: Returns all default recipes
+      operationId: getDefaultRecipes
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of default recipes
+            type: array
+            items:
+              $ref: "#/definitions/Recipe"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -229,6 +245,10 @@ definitions:
       status:
         type: string
         enum: ["ACTIVE", "INACTIVE"]
+      favorited:
+        type: boolean
+      default:
+        type: boolean
   Step:
     required:
       - title

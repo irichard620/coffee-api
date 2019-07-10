@@ -5,6 +5,7 @@ const getRecipeDoc = require("../db/recipe");
 
 module.exports = {
   createRecipe: createRecipe,
+  getDefaultRecipes: getDefaultRecipes,
 };
 
 function createRecipe(req, res) {
@@ -18,6 +19,22 @@ function createRecipe(req, res) {
     } else {
       res.status(201);
       res.json("Successfully created recipe")
+    }
+  });
+}
+
+function getDefaultRecipes(req, res) {
+  const db = getDb();
+  const collection = db.collection('recipes');
+  collection.find({status: 'ACTIVE', default: true}).toArray((err, items) => {
+    if (err) {
+      console.log(err);
+      res.status(500);
+      res.json(err);
+    } else {
+      console.log(items);
+      res.status(200);
+      res.json(items);
     }
   });
 }
