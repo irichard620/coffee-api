@@ -155,9 +155,7 @@ definitions:
       sponsor_id:
         type: string
         format: uuid
-      logo_link:
-        type: string
-      background_link:
+      image_link:
         type: string
       company:
         type: string
@@ -189,8 +187,6 @@ definitions:
       sponsor_id:
         type: string
         format: uuid
-      image_link:
-        type: string
       title:
         type: string
       description:

@@ -9,8 +9,7 @@ function getSponsorDoc(sponsorModel) {
   } else {
     dbDoc["sponsor_id"] = sponsorModel.sponsor_id
   }
-  dbDoc["logo_link"] = sponsorModel.logo_link || ""
-  dbDoc["background_link"] = sponsorModel.background_link || ""
+  dbDoc["image_link"] = sponsorModel.image_link || ""
   dbDoc["company"] = sponsorModel.company
   dbDoc["location"] = sponsorModel.location
   dbDoc["description"] = sponsorModel.description

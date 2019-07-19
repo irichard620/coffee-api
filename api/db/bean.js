@@ -10,7 +10,6 @@ function getBeanDoc(beanModel) {
     dbDoc["bean_id"] = beanModel.bean_id
   }
   dbDoc["sponsor_id"] = beanModel.sponsor_id
-  dbDoc["image_link"] = beanModel.image_link || ""
   dbDoc["title"] = beanModel.title
   dbDoc["description"] = beanModel.description
   dbDoc["status"] = beanModel.status
