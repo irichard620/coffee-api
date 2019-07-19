@@ -13,6 +13,7 @@ function getSponsorDoc(sponsorModel) {
   dbDoc["company"] = sponsorModel.company
   dbDoc["location"] = sponsorModel.location
   dbDoc["description"] = sponsorModel.description
+  dbDoc["theme_color"] = sponsorModel.theme_color
   dbDoc["status"] = sponsorModel.status
   return dbDoc
 }

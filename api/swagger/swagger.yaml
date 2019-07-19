@@ -163,6 +163,8 @@ definitions:
         type: string
       description:
         type: string
+      theme_color:
+        type: string
       beans:
         type: array
         items:
