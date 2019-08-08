@@ -25,6 +25,8 @@ function getRecipeDoc(recipeModel) {
   }
   dbDoc["steps"] = stepsToAdd
   dbDoc["status"] = recipeModel.status
+  dbDoc["default"] = recipeModel.default
+  dbDoc["favorited"] = recipeModel.favorited
   return dbDoc
 }
 
