@@ -70,13 +70,19 @@ function getSponsor(req, res) {
 }
 
 function createSponsor(req, res) {
+  if (req.uid != "JvhWbWy4mmMkjiB7rGpFjan4q603") {
+    res.status(401);
+    res.json("Not an admin user");
+    return;
+  }
   const db = getDb();
   const collection = db.collection('sponsors');
   const dbDoc = getSponsorDoc(req.swagger.params.body.value);
   collection.insertOne(dbDoc, (err, result) => {
     if (err) {
       console.log(err);
-      res.status(500).send(err);
+      res.status(500);
+      res.json(err);
     } else {
       res.status(201);
       res.json("Successfully created sponsor")
