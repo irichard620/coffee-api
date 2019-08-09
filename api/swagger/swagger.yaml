@@ -161,6 +161,12 @@ definitions:
         type: string
       location:
         type: string
+      street_address:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
       description:
         type: string
       theme_color:

@@ -12,6 +12,9 @@ function getSponsorDoc(sponsorModel) {
   dbDoc["image_link"] = sponsorModel.image_link || ""
   dbDoc["company"] = sponsorModel.company
   dbDoc["location"] = sponsorModel.location
+  dbDoc["street_address"] = sponsorModel.street_address
+  dbDoc["latitude"] = sponsorModel.latitude
+  dbDoc["longitude"] = sponsorModel.longitude
   dbDoc["description"] = sponsorModel.description
   dbDoc["theme_color"] = sponsorModel.theme_color
   dbDoc["text_color"] = sponsorModel.text_color
