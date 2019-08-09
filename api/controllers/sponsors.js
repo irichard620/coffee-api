@@ -43,7 +43,7 @@ function getSponsor(req, res) {
       res.json("Not found!");
     } else {
       // Now, get beans
-      beanCollection.find({sponsor_id: sponsorID}).toArray((err, beanItems) => {
+      beanCollection.find({sponsor_id: sponsorID, status: 'ACTIVE'}).toArray((err, beanItems) => {
         if (err) {
           console.log(err);
           res.status(500);
@@ -51,7 +51,7 @@ function getSponsor(req, res) {
         } else {
           item["beans"] = beanItems
           // Now, get recipes
-          recipeCollection.find({sponsor_id: sponsorID}).toArray((err, recipeItems) => {
+          recipeCollection.find({sponsor_id: sponsorID, status: 'ACTIVE'}).toArray((err, recipeItems) => {
             if (err) {
               console.log(err);
               res.status(500);
