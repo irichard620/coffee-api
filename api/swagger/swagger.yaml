@@ -167,6 +167,8 @@ definitions:
         type: number
       longitude:
         type: number
+      visit_description:
+        type: string
       description:
         type: string
       theme_color:
