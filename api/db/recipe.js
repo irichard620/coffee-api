@@ -11,7 +11,6 @@ function getRecipeDoc(recipeModel) {
   }
   dbDoc["sponsor_id"] = recipeModel.sponsor_id || ""
   dbDoc["brewing_vessel"] = recipeModel.brewing_vessel
-  dbDoc["vessel_id"] = recipeModel.vessel_id
   dbDoc["filter_type"] = recipeModel.filter_type
   dbDoc["orientation"] = recipeModel.orientation
   dbDoc["recipe_name"] = recipeModel.recipe_name
@@ -32,13 +31,7 @@ function getRecipeDoc(recipeModel) {
 
 function getStepDoc(stepModel) {
   let dbDoc = {}
-  if (!stepModel.step_id) {
-    dbDoc["step_id"] = uuidv4();
-  } else {
-    dbDoc["step_id"] = stepModel.step_id
-  }
   dbDoc["title"] = stepModel.title
-  dbDoc["type"] = stepModel.type
   dbDoc["properties"] = stepModel.properties
   return dbDoc
 }

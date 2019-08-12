@@ -211,7 +211,6 @@ definitions:
   Recipe:
     required:
       - brewing_vessel
-      - vessel_id
       - filter_type
       - orientation
       - recipe_name
@@ -229,8 +228,6 @@ definitions:
         type: string
         format: uuid
       brewing_vessel:
-        type: string
-      vessel_id:
         type: string
       filter_type:
         type: string
@@ -260,14 +257,8 @@ definitions:
   Step:
     required:
       - title
-      - type
     properties:
-      step_id:
-        type: string
-        format: uuid
       title:
-        type: string
-      type:
         type: string
       properties:
         type: object
