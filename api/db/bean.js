@@ -9,9 +9,10 @@ function getBeanDoc(beanModel) {
   } else {
     dbDoc["bean_id"] = beanModel.bean_id
   }
-  dbDoc["sponsor_id"] = beanModel.sponsor_id
-  dbDoc["title"] = beanModel.title
-  dbDoc["description"] = beanModel.description
-  dbDoc["status"] = beanModel.status
+  dbDoc["sponsor_id"] = beanModel.sponsor_id || ""
+  dbDoc["bean_link"] = beanModel.bean_link || ""
+  dbDoc["title"] = beanModel.title || ""
+  dbDoc["description"] = beanModel.description || ""
+  dbDoc["status"] = beanModel.status || "ACTIVE"
   return dbDoc
 }

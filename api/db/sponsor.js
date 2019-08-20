@@ -10,16 +10,16 @@ function getSponsorDoc(sponsorModel) {
     dbDoc["sponsor_id"] = sponsorModel.sponsor_id
   }
   dbDoc["image_link"] = sponsorModel.image_link || ""
-  dbDoc["company"] = sponsorModel.company
-  dbDoc["location"] = sponsorModel.location
+  dbDoc["company"] = sponsorModel.company || ""
+  dbDoc["location"] = sponsorModel.location || ""
   dbDoc["has_address"] = sponsorModel.has_address || false
-  dbDoc["street_address"] = sponsorModel.street_address
-  dbDoc["latitude"] = sponsorModel.latitude
-  dbDoc["longitude"] = sponsorModel.longitude
-  dbDoc["visit_description"] = sponsorModel.visit_description
-  dbDoc["description"] = sponsorModel.description
-  dbDoc["theme_color"] = sponsorModel.theme_color
-  dbDoc["text_color"] = sponsorModel.text_color
-  dbDoc["status"] = sponsorModel.status
+  dbDoc["street_address"] = sponsorModel.street_address || ""
+  dbDoc["latitude"] = sponsorModel.latitude || 0
+  dbDoc["longitude"] = sponsorModel.longitude || 0
+  dbDoc["visit_description"] = sponsorModel.visit_description || ""
+  dbDoc["description"] = sponsorModel.description || ""
+  dbDoc["theme_color"] = sponsorModel.theme_color || ""
+  dbDoc["text_color"] = sponsorModel.text_color || ""
+  dbDoc["status"] = sponsorModel.status || "ACTIVE"
   return dbDoc
 }

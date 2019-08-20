@@ -10,29 +10,29 @@ function getRecipeDoc(recipeModel) {
     dbDoc["recipe_id"] = recipeModel.recipe_id
   }
   dbDoc["sponsor_id"] = recipeModel.sponsor_id || ""
-  dbDoc["brewing_vessel"] = recipeModel.brewing_vessel
-  dbDoc["filter_type"] = recipeModel.filter_type
-  dbDoc["orientation"] = recipeModel.orientation
-  dbDoc["recipe_name"] = recipeModel.recipe_name
-  dbDoc["total_coffee"] = recipeModel.total_coffee
-  dbDoc["grind_size"] = recipeModel.grind_size
-  dbDoc["total_water"] = recipeModel.total_water
-  dbDoc["water_temp"] = recipeModel.water_temp
+  dbDoc["brewing_vessel"] = recipeModel.brewing_vessel || ""
+  dbDoc["filter_type"] = recipeModel.filter_type || ""
+  dbDoc["orientation"] = recipeModel.orientation || ""
+  dbDoc["recipe_name"] = recipeModel.recipe_name || ""
+  dbDoc["total_coffee"] = recipeModel.total_coffee || ""
+  dbDoc["grind_size"] = recipeModel.grind_size || ""
+  dbDoc["total_water"] = recipeModel.total_water || ""
+  dbDoc["water_temp"] = recipeModel.water_temp || ""
   let stepsToAdd = []
   for (step of recipeModel.steps) {
     stepsToAdd.push(getStepDoc(step))
   }
   dbDoc["steps"] = stepsToAdd
-  dbDoc["status"] = recipeModel.status
-  dbDoc["default"] = recipeModel.default
-  dbDoc["favorited"] = recipeModel.favorited
+  dbDoc["status"] = recipeModel.status || "ACTIVE"
+  dbDoc["default"] = recipeModel.default || false
+  dbDoc["favorited"] = recipeModel.favorited || false
   return dbDoc
 }
 
 function getStepDoc(stepModel) {
   let dbDoc = {}
-  dbDoc["title"] = stepModel.title
+  dbDoc["title"] = stepModel.title || ""
   dbDoc["notes"] = stepModel.notes || ""
-  dbDoc["properties"] = stepModel.properties
+  dbDoc["properties"] = stepModel.properties || {}
   return dbDoc
 }
