@@ -32,6 +32,7 @@ function getRecipeDoc(recipeModel) {
 function getStepDoc(stepModel) {
   let dbDoc = {}
   dbDoc["title"] = stepModel.title
+  dbDoc["notes"] = stepModel.notes || ""
   dbDoc["properties"] = stepModel.properties
   return dbDoc
 }

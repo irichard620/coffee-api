@@ -161,6 +161,8 @@ definitions:
         type: string
       location:
         type: string
+      has_address:
+        type: boolean
       street_address:
         type: string
       latitude:
@@ -259,6 +261,8 @@ definitions:
       - title
     properties:
       title:
+        type: string
+      notes:
         type: string
       properties:
         type: object

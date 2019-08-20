@@ -12,6 +12,7 @@ function getSponsorDoc(sponsorModel) {
   dbDoc["image_link"] = sponsorModel.image_link || ""
   dbDoc["company"] = sponsorModel.company
   dbDoc["location"] = sponsorModel.location
+  dbDoc["has_address"] = sponsorModel.has_address || false
   dbDoc["street_address"] = sponsorModel.street_address
   dbDoc["latitude"] = sponsorModel.latitude
   dbDoc["longitude"] = sponsorModel.longitude
