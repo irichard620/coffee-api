@@ -1,31 +1,30 @@
-'use strict';
+const SwaggerConnect = require('swagger-connect');
+require('dotenv').config();
+const admin = require('firebase-admin');
+const app = require('connect')();
+const { initDb } = require('./api/db/db');
+const authMiddleware = require('./api/middleware/auth');
 
-var SwaggerConnect = require('swagger-connect');
-require('dotenv').config()
-var admin = require('firebase-admin');
-const initDb = require("./api/db/db").initDb;
-const authMiddleware = require("./api/middleware/auth");
-var app = require('connect')();
 module.exports = app; // for testing
 
-var config = {
-  appRoot: __dirname // required config
+const config = {
+  appRoot: __dirname, // required config
 };
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDcZy08LfkZkpoxqxtluSTVvnYjLKq-mzk",
-  authDomain: "drippy-505b3.firebaseapp.com",
-  databaseURL: "https://drippy-505b3.firebaseio.com",
-  projectId: "drippy-505b3",
-  storageBucket: "",
-  messagingSenderId: "1067564843347",
-  appId: "1:1067564843347:web:486992b804c221c6"
+const firebaseConfig = {
+  apiKey: 'AIzaSyDcZy08LfkZkpoxqxtluSTVvnYjLKq-mzk',
+  authDomain: 'drippy-505b3.firebaseapp.com',
+  databaseURL: 'https://drippy-505b3.firebaseio.com',
+  projectId: 'drippy-505b3',
+  storageBucket: '',
+  messagingSenderId: '1067564843347',
+  appId: '1:1067564843347:web:486992b804c221c6',
 };
 
 // Initialize Firebase
 admin.initializeApp(firebaseConfig);
 
-SwaggerConnect.create(config, function(err, swaggerConnect) {
+SwaggerConnect.create(config, (err, swaggerConnect) => {
   if (err) { throw err; }
 
   // install middleware
@@ -34,14 +33,16 @@ SwaggerConnect.create(config, function(err, swaggerConnect) {
   app.use('/sponsors', authMiddleware);
   swaggerConnect.register(app);
 
-  var port = process.env.PORT || 10010;
+  const port = process.env.PORT || 10010;
 
-  initDb(function (err) {
-    app.listen(port, function (err) {
-      if (err) {
-          throw err;
+  initDb((err2) => {
+    if (err2) {
+      throw err2;
+    }
+    app.listen(port, (err3) => {
+      if (err3) {
+        throw err3;
       }
-      console.log("API Up and running on port " + port);
     });
   });
 });
