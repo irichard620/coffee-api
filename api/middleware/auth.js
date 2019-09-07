@@ -15,23 +15,20 @@ function authMiddleware(req, res, next) {
     return res.end('Access denied. No token provided.');
   }
 
-  try {
-    // if can verify the token, set req.user and pass to next middleware
-    admin.auth().verifyIdToken(token)
-      .then((decodedToken) => {
-        req.uid = decodedToken.uid;
-        return next();
-      }).catch(() => {
-        // Handle error
-        res.statusCode = 500;
-        return res.end('Internal server error');
-      });
-  } catch (ex) {
-    // if invalid token
-    res.statusCode = 400;
-    return res.end('Invalid token.');
+  // if can verify the token, set req.user and pass to next middleware
+  let shouldContinue = true;
+  admin.auth().verifyIdToken(token)
+    .then((decodedToken) => {
+      req.uid = decodedToken.uid;
+    }).catch(() => {
+      // Handle error
+      shouldContinue = false;
+    });
+  if (shouldContinue) {
+    return next();
   }
-  return next();
+  res.statusCode = 500;
+  return res.end('Internal server error');
 }
 
 module.exports = authMiddleware;
