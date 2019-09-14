@@ -185,6 +185,8 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/Recipe"
+      priority:
+        type: number
       status:
         type: string
         enum: ["ACTIVE", "INACTIVE"]

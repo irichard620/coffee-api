@@ -4,7 +4,7 @@ const getSponsorDoc = require('../db/sponsor');
 function getSponsorsHandler(req, res) {
   const db = getDb();
   const collection = db.collection('sponsors');
-  collection.find({ status: 'ACTIVE' }).toArray((err, items) => {
+  collection.find({ status: 'ACTIVE' }).sort({ priority: 1 }).toArray((err, items) => {
     if (err) {
       res.status(500);
       res.json(err);

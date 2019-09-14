@@ -18,6 +18,7 @@ function getSponsorDoc(sponsorModel) {
   dbDoc.description = sponsorModel.description || '';
   dbDoc.theme_color = sponsorModel.theme_color || '';
   dbDoc.text_color = sponsorModel.text_color || '';
+  dbDoc.priority = sponsorModel.priority || 4;
   dbDoc.status = sponsorModel.status || 'ACTIVE';
   return dbDoc;
 }
