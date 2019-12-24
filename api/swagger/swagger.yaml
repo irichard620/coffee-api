@@ -239,6 +239,8 @@ definitions:
         type: string
       recipe_name:
         type: string
+      recipe_description:
+        type: string
       total_coffee:
         type: string
       grind_size:

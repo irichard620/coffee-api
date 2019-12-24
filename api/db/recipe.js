@@ -20,6 +20,7 @@ function getRecipeDoc(recipeModel) {
   dbDoc.filter_type = recipeModel.filter_type || '';
   dbDoc.orientation = recipeModel.orientation || '';
   dbDoc.recipe_name = recipeModel.recipe_name || '';
+  dbDoc.recipe_description = recipeModel.recipe_description || '';
   dbDoc.total_coffee = recipeModel.total_coffee || '';
   dbDoc.grind_size = recipeModel.grind_size || '';
   dbDoc.total_water = recipeModel.total_water || '';
