@@ -31,6 +31,7 @@ SwaggerConnect.create(config, (err, swaggerConnect) => {
   app.use('/beans', authMiddleware);
   app.use('/recipes', authMiddleware);
   app.use('/sponsors', authMiddleware);
+  app.use('/vessels', authMiddleware);
   swaggerConnect.register(app);
 
   const port = process.env.PORT || 10010;

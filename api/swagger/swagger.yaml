@@ -141,6 +141,50 @@ paths:
           schema:
             description: Error message
             type: string
+  /vessels:
+    x-swagger-router-controller: vessels
+    post:
+      description: Create new vessel
+      operationId: createVessel
+      parameters:
+        - in: body
+          name: body
+          description: Vessel object
+          required: true
+          schema:
+            $ref: "#/definitions/Vessel"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /vessels/{vesselName}:
+    x-swagger-router-controller: vessels
+    get:
+      description: Returns info for vessel
+      operationId: getVessel
+      parameters:
+        - in: path
+          name: vesselName
+          description: name of vessel
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Vessel"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -270,3 +314,18 @@ definitions:
         type: string
       properties:
         type: object
+  Vessel:
+    required:
+      - vessel_name
+      - vessel_link
+      - vessel_description
+    properties:
+      vessel_id:
+        type: string
+        format: uuid
+      vessel_name:
+        type: string
+      vessel_link:
+        type: string
+      vessel_description:
+        type: string
