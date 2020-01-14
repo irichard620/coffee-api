@@ -185,6 +185,70 @@ paths:
           schema:
             description: Error message
             type: string
+  /locations:
+    x-swagger-router-controller: locations
+    post:
+      description: Create new location
+      operationId: createLocation
+      parameters:
+        - in: body
+          name: body
+          description: Location object
+          required: true
+          schema:
+            $ref: "#/definitions/Location"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    get:
+      description: Returns all locations
+      operationId: getAllLocations
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of locations
+            type: array
+            items:
+              $ref: "#/definitions/Location"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /locations/{sponsorID}:
+    x-swagger-router-controller: locations
+    get:
+      description: Returns locations for sponsor
+      operationId: getSponsorLocations
+      parameters:
+        - in: path
+          name: sponsorID
+          description: ID of sponsor
+          required: true
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of locations
+            type: array
+            items:
+              $ref: "#/definitions/Location"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -329,3 +393,26 @@ definitions:
         type: string
       vessel_description:
         type: string
+  Location:
+    required:
+      - location_name
+      - location_description
+      - latitude
+      - longitude
+      - sponsor_id
+    properties:
+      location_id:
+        type: string
+        format: uuid
+      sponsor_id:
+        type: string
+        format: uuid
+      location_name:
+        type: string
+      location_description:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+
