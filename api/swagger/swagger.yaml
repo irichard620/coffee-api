@@ -249,6 +249,57 @@ paths:
           schema:
             description: Error message
             type: string
+  /users:
+    x-swagger-router-controller: users
+    get:
+      description: Returns user with token passed
+      operationId: getUser
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /users/backup:
+    x-swagger-router-controller: users
+    get:
+      description: Returns latest backup
+      operationId: getLatestUserBackup
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/UserBackupData"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    post:
+      description: Create new backup
+      operationId: createUserBackup
+      parameters:
+        - in: body
+          name: body
+          description: Location object
+          required: true
+          schema:
+            $ref: "#/definitions/UserBackupData"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -415,4 +466,63 @@ definitions:
         type: number
       longitude:
         type: number
-
+  User:
+    properties:
+      user_id:
+        type: string
+        format: uuid
+      auth_id:
+        type: string
+      name:
+        type: string
+      last_backup:
+        type: string
+        format: date-time
+  UserBackupData:
+    properties:
+      recipes:
+        type: array
+        items:
+          $ref: "#/definitions/UserRecipe"
+  UserRecipe:
+    required:
+      - brewing_vessel
+      - filter_type
+      - orientation
+      - recipe_name
+      - total_coffee
+      - grind_size
+      - total_water
+      - water_temp
+      - steps
+    properties:
+      recipe_id:
+        type: string
+        format: uuid
+      user_id:
+        type: string
+        format: uuid
+      brewing_vessel:
+        type: string
+      filter_type:
+        type: string
+      orientation:
+        type: string
+      recipe_name:
+        type: string
+      recipe_description:
+        type: string
+      total_coffee:
+        type: string
+      grind_size:
+        type: string
+      total_water:
+        type: string
+      water_temp:
+        type: string
+      steps:
+        type: array
+        items:
+          $ref: "#/definitions/Step"
+      favorited:
+        type: boolean

@@ -1,5 +1,5 @@
 const { getDb } = require('../db/db');
-const getRecipeDoc = require('../db/recipe');
+const { getRecipeDoc } = require('../db/recipe');
 
 function createRecipeHandler(req, res) {
   if (req.uid !== 'JvhWbWy4mmMkjiB7rGpFjan4q603') {
