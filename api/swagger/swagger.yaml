@@ -249,10 +249,52 @@ paths:
           schema:
             description: Error message
             type: string
+#  Mixxy api calls
+# ---------------------
+  /mixxy/ingredients:
+    x-swagger-router-controller: mixxy/mixxy_ingredients
+    get:
+      description: Return all ingredients
+      operationId: getMixxyIngredients
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of ingredients
+            type: array
+            items:
+              $ref: "#/definitions/MixxyIngredient"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    post:
+      description: Create new ingredient
+      operationId: createMixxyIngredient
+      parameters:
+        - in: body
+          name: body
+          description: Location object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyIngredient"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
 definitions:
+  # Drippy models
   Sponsor:
     required:
       - company
@@ -415,4 +457,19 @@ definitions:
         type: number
       longitude:
         type: number
+  # Mixxy models
+  MixxyIngredient:
+    required:
+      - title
+      - description
+    properties:
+      ingredient_id:
+        type: string
+        format: uuid
+      title:
+        type: string
+      description:
+        type: string
+      classification:
+        type: string
 
