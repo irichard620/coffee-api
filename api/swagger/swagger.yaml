@@ -252,7 +252,7 @@ paths:
 #  Mixxy api calls
 # ---------------------
   /mixxy/ingredients:
-    x-swagger-router-controller: mixxy/mixxy_ingredients
+    x-swagger-router-controller: mixxy/ngredients
     get:
       description: Return all ingredients
       operationId: getMixxyIngredients
@@ -285,6 +285,137 @@ paths:
           schema:
             description: Success message
             type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/sponsors:
+    x-swagger-router-controller: mixxy/sponsors
+    post:
+      description: Create new sponsor
+      operationId: createMixxySponsor
+      parameters:
+        - in: body
+          name: body
+          description: Sponsor object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxySponsor"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/sponsors/{sponsorID}:
+    x-swagger-router-controller: mixxy/sponsors
+    get:
+      description: Returns all info for one sponsor
+      operationId: getMixxySponsor
+      parameters:
+        - in: path
+          name: sponsorID
+          description: ID of sponsor
+          required: true
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/MixxySponsor"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/sponsor-cards:
+    x-swagger-router-controller: mixxy/sponsors
+    get:
+      description: Returns all info for one sponsor
+      operationId: getMixxySponsorCards
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of cards
+            type: array
+            items:
+              $ref: "#/definitions/MixxySponsorCard"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/sponsors/{sponsorID}/cards:
+    x-swagger-router-controller: mixxy/sponsors
+    post:
+      description: Create new sponsor card
+      operationId: createMixxySponsorCard
+      parameters:
+        - in: path
+          name: sponsorID
+          description: ID of sponsor
+          required: true
+          type: string
+          format: uuid
+        - in: body
+          name: body
+          description: Sponsor object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxySponsorCard"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/campaigns:
+    x-swagger-router-controller: mixxy/campaigns
+    post:
+      description: Create new campaign
+      operationId: createMixxyCampaign
+      parameters:
+        - in: body
+          name: body
+          description: campaign object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyCampaign"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    get:
+      description: Returns all campaigns
+      operationId: getMixxyCampaigns
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of campaigns
+            type: array
+            items:
+              $ref: "#/definitions/MixxyCampaign"
         default:
           description: Error
           schema:
@@ -472,4 +603,71 @@ definitions:
         type: string
       classification:
         type: string
-
+  MixxySponsor:
+    required:
+      - sponsor_name
+      - sponsor_type
+      - hq_location
+      - website
+      - about
+      - logo_link
+    properties:
+      sponsor_id:
+        type: string
+        format: uuid
+      sponsor_name:
+        type: string
+      sponsor_type:
+        type: string
+      hq_location:
+        type: string
+      website:
+        type: string
+      about:
+        type: string
+      logo_link:
+        type: string
+  MixxySponsorCard:
+    required:
+      - card_image_link
+      - card_title
+    properties:
+      card_id:
+        type: string
+        format: uuid
+      tags:
+        type: array
+        items:
+          type: string
+      card_image_link:
+        type: string
+      card_title:
+        type: string
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+  MixxyCampaign:
+    required:
+      - campaign_name
+      - campaign_short_description
+      - campaign_long_description
+      - campaign_image_link
+    properties:
+      campaign_id:
+        type: string
+        format: uuid
+      tags:
+        type: array
+        items:
+          type: string
+      campaign_name:
+        type: string
+      campaign_short_description:
+        type: string
+      campaign_long_description:
+        type: string
+      campaign_image_link:
+        type: string
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
