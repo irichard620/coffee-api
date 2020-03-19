@@ -8,10 +8,10 @@ function getCampaignDoc(campaignModel) {
     dbDoc.campaign_id = campaignModel.campaign_id;
   }
   dbDoc.tags = campaignModel.tags || [];
-  dbDoc.campaign_name = campaignModel.campaign_name || '';
-  dbDoc.campaign_short_description = campaignModel.campaign_short_description || '';
-  dbDoc.campaign_long_description = campaignModel.campaign_long_description || '';
-  dbDoc.campaign_image_link = campaignModel.campaign_image_link || '';
+  dbDoc.name = campaignModel.name || '';
+  dbDoc.short_description = campaignModel.short_description || '';
+  dbDoc.long_description = campaignModel.long_description || '';
+  dbDoc.image_link = campaignModel.image_link || '';
   dbDoc.status = campaignModel.status || 'INACTIVE';
   return dbDoc;
 }

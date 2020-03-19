@@ -252,7 +252,7 @@ paths:
 #  Mixxy api calls
 # ---------------------
   /mixxy/ingredients:
-    x-swagger-router-controller: mixxy/ngredients
+    x-swagger-router-controller: mixxy/ingredients
     get:
       description: Return all ingredients
       operationId: getMixxyIngredients
@@ -416,6 +416,97 @@ paths:
             type: array
             items:
               $ref: "#/definitions/MixxyCampaign"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/master-lists:
+    x-swagger-router-controller: mixxy/master_lists
+    post:
+      description: Create new master list
+      operationId: createMixxyMasterList
+      parameters:
+        - in: body
+          name: body
+          description: master list object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyMasterList"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    get:
+      description: Returns all master lists
+      operationId: getMixxyMasterLists
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of master lists
+            type: array
+            items:
+              $ref: "#/definitions/MixxyMasterList"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+  /mixxy/recipes:
+    x-swagger-router-controller: mixxy/recipes
+    post:
+      description: Create new recipe
+      operationId: createMixxyRecipe
+      parameters:
+        - in: body
+          name: body
+          description: master list object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyRecipe"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: Success message
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    get:
+      description: Returns all recipes
+      operationId: getMixxyRecipes
+      parameters:
+        - in: query
+          name: campaign_id
+          description: ID of campaign
+          type: string
+          format: uuid
+        - in: query
+          name: master_list_id
+          description: ID of master list
+          type: string
+          format: uuid
+        - in: query
+          name: sponsor_card_id
+          description: ID of sponsor card
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/MixxyRecipe"
         default:
           description: Error
           schema:
@@ -603,6 +694,7 @@ definitions:
         type: string
       classification:
         type: string
+        enum: ["Alcoholic", "Non-alcoholic", "Culinary", "Ice"]
   MixxySponsor:
     required:
       - sponsor_name
@@ -648,10 +740,10 @@ definitions:
         enum: ["ACTIVE", "INACTIVE"]
   MixxyCampaign:
     required:
-      - campaign_name
-      - campaign_short_description
-      - campaign_long_description
-      - campaign_image_link
+      - name
+      - short_description
+      - long_description
+      - image_link
     properties:
       campaign_id:
         type: string
@@ -660,14 +752,116 @@ definitions:
         type: array
         items:
           type: string
-      campaign_name:
+      name:
         type: string
-      campaign_short_description:
+      short_description:
         type: string
-      campaign_long_description:
+      long_description:
         type: string
-      campaign_image_link:
+      image_link:
         type: string
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+  MixxyMasterList:
+    required:
+      - name
+      - short_description
+      - long_description
+      - image_link
+    properties:
+      campaign_id:
+        type: string
+        format: uuid
+      tags:
+        type: array
+        items:
+          type: string
+      name:
+        type: string
+      short_description:
+        type: string
+      long_description:
+        type: string
+      image_link:
+        type: string
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+  MixxyRecipeIngredient:
+    required:
+      - ingredient_id
+      - title
+    properties:
+      ingredient_id:
+        type: string
+        format: uuid
+      title:
+        type: string
+      brand:
+        type: string
+      amount:
+        type: string
+      fractional_amount:
+        type: string
+      amount_type:
+        type: string
+        enum: ["Ounces", "Teaspoon", "Tablespoon", "Piece", "Dashes"]
+  MixxyStep:
+    required:
+      - title
+    properties:
+      title:
+        type: string
+        enum: ["Add Ingredients", "Remove Ingredients", "Stir", "Muddle", "Blend", "Shake", "Strain", "Garnish", "Rim Glass"]
+      notes:
+        type: string
+      vessel:
+        type: string
+        enum: ["Cocktail Shaker", "Mixing glass", "Serving glass", "Blender"]
+      ingredients:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyRecipeIngredient"
+      properties:
+        type: object
+  MixxyRecipe:
+    required:
+      - recipe_name
+      - recipe_type
+      - base_spirit
+      - serving_glass
+      - total_ounces
+      - steps
+    properties:
+      recipe_id:
+        type: string
+        format: uuid
+      recipe_name:
+        type: string
+      recipe_description:
+        type: string
+      recipe_type:
+        type: string
+      base_spirit:
+        type: string
+      serving_glass:
+        type: string
+      total_ounces:
+        type: number
+      steps:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyStep"
+      sponsor_card_id:
+        type: string
+        format: uuid
+      campaign_id:
+        type: string
+        format: uuid
+      master_list_id:
+        type: string
+        format: uuid
       status:
         type: string
         enum: ["ACTIVE", "INACTIVE"]
