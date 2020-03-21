@@ -723,10 +723,30 @@ definitions:
     required:
       - card_image_link
       - card_title
+      - sponsor_name
+      - sponsor_type
+      - hq_location
+      - website
+      - about
+      - logo_link
     properties:
       card_id:
         type: string
         format: uuid
+      # Sponsor info
+      sponsor_name:
+        type: string
+      sponsor_type:
+        type: string
+      hq_location:
+        type: string
+      website:
+        type: string
+      about:
+        type: string
+      logo_link:
+        type: string
+      # Card info
       tags:
         type: array
         items:
