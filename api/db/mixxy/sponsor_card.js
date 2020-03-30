@@ -15,6 +15,7 @@ function getSponsorCardDoc(cardModel) {
   dbDoc.about = cardModel.about || '';
   dbDoc.logo_link = cardModel.logo_link || '';
   dbDoc.tags = cardModel.tags || [];
+  dbDoc.tag_color = cardModel.tag_color || '';
   dbDoc.card_image_link = cardModel.card_image_link || '';
   dbDoc.card_title = cardModel.card_title || '';
   dbDoc.status = cardModel.status || 'INACTIVE';
