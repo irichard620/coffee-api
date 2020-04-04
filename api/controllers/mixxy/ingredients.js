@@ -24,7 +24,7 @@ function createIngredientHandler(req, res) {
 function getIngredientsHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_ingredients');
-  collection.find({}).toArray((err, ingredientItems) => {
+  collection.find({}).sort({ title: 1 }).toArray((err, ingredientItems) => {
     if (err) {
       res.status(500);
       res.json(err);
