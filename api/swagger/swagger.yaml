@@ -879,7 +879,7 @@ definitions:
         type: string
       amount_type:
         type: string
-        enum: ["Ounce", "Teaspoon", "Tablespoon", "Cup", "Dash", "Drop", "Piece", "Pinch", "Slice", "Sprig", "Leaf", "Grind"]
+        enum: ["", "Ounce", "Teaspoon", "Tablespoon", "Cup", "Dash", "Drop", "Piece", "Pinch", "Slice", "Sprig", "Leaf", "Grind"]
   MixxyStep:
     required:
       - title
