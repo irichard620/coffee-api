@@ -512,6 +512,55 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/recipes/{recipeID}:
+    x-swagger-router-controller: mixxy/recipes
+    get:
+      description: Returns all info for one recipe
+      operationId: getMixxyRecipe
+      parameters:
+        - in: path
+          name: recipeID
+          description: ID of recipe
+          required: true
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/MixxyRecipe"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
+    put:
+      description: Create new shared recipe
+      operationId: createSharedMixxyRecipe
+      parameters:
+        - in: path
+          name: recipeID
+          description: ID of recipe
+          required: true
+          type: string
+          format: uuid
+        - in: body
+          name: body
+          description: recipe
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyRecipe"
+      responses:
+        "201":
+          description: Success
+          schema:
+            description: URL of deep link
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -830,7 +879,7 @@ definitions:
         type: string
       amount_type:
         type: string
-        enum: ["Ounces", "Teaspoon", "Tablespoon", "Piece", "Dashes"]
+        enum: ["Ounce", "Teaspoon", "Tablespoon", "Cup", "Dash", "Drop", "Piece", "Pinch", "Slice", "Sprig", "Leaf", "Grind"]
   MixxyStep:
     required:
       - title
