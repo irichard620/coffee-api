@@ -891,7 +891,7 @@ definitions:
         type: string
       vessel:
         type: string
-        enum: ["Cocktail Shaker", "Mixing glass", "Serving glass", "Blender"]
+        enum: ["", "Cocktail Shaker", "Mixing glass", "Serving glass", "Blender"]
       ingredients:
         type: array
         items:
