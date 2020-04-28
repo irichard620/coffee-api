@@ -739,6 +739,8 @@ definitions:
         format: uuid
       title:
         type: string
+      common_name:
+        type: string
       description:
         type: string
       classification:

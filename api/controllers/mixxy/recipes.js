@@ -94,25 +94,33 @@ function getRecipeDetailsHandler(req, res) {
 function createSharedRecipeHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_shared_recipes');
+  const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
   const recipeID = req.swagger.params.recipeID.value;
   collection.findOne({ recipe_id: recipeID }, (err, item) => {
     if (err) {
       res.status(500);
       res.json(err);
     } else if (!item) {
-      const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
       collection.insertOne(dbDoc, (err2) => {
         if (err2) {
           res.status(500);
           res.json(err);
         } else {
           res.status(201);
-          res.json(`https://mixxy.page.link/?link=https://mixxy.page.link/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy`);
+          res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy`);
         }
       });
     } else {
-      res.status(201);
-      res.json(`https://mixxy.page.link/?link=https://mixxy.page.link/${item.recipe_id}&ibi=com.IanRichard.Mixxy`);
+      const newValues = { $set: dbDoc };
+      collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
+        if (err2) {
+          res.status(500);
+          res.json(err2);
+        } else {
+          res.status(201);
+          res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${item.recipe_id}&ibi=com.IanRichard.Mixxy`);
+        }
+      });
     }
   });
 }

@@ -8,6 +8,7 @@ function getIngredientDoc(ingredientModel) {
     dbDoc.ingredient_id = ingredientModel.ingredient_id;
   }
   dbDoc.title = ingredientModel.title || '';
+  dbDoc.common_name = ingredientModel.common_name || '';
   dbDoc.description = ingredientModel.description || '';
   dbDoc.classification = ingredientModel.classification || '';
   return dbDoc;
