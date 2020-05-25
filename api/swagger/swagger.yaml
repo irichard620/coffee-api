@@ -881,25 +881,20 @@ definitions:
         type: string
       amount_type:
         type: string
-        enum: ["", "Ounce", "Teaspoon", "Tablespoon", "Cup", "Dash", "Drop", "Piece", "Pinch", "Slice", "Sprig", "Leaf", "Grind"]
+        enum: ["", "Ounce", "Teaspoon", "Tablespoon", "Cup", "Dash", "Drop", "Piece", "Pinch", "Garnish", "Rim"]
   MixxyStep:
     required:
       - title
     properties:
       title:
         type: string
-        enum: ["Add Ingredients", "Remove Ingredients", "Stir", "Muddle", "Blend", "Shake", "Strain", "Garnish", "Rim Glass"]
-      notes:
-        type: string
-      vessel:
-        type: string
-        enum: ["", "Cocktail Shaker", "Mixing glass", "Serving glass", "Blender"]
       ingredients:
         type: array
         items:
-          $ref: "#/definitions/MixxyRecipeIngredient"
-      properties:
-        type: object
+          type: string
+          format: uuid
+      start_location:
+        type: number
   MixxyRecipe:
     required:
       - recipe_name
@@ -907,6 +902,7 @@ definitions:
       - base_spirit
       - serving_glass
       - total_ounces
+      - ingredients
       - steps
     properties:
       recipe_id:
@@ -928,6 +924,10 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/MixxyStep"
+      ingredients:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyRecipeIngredient"
       sponsor_card_id:
         type: string
         format: uuid

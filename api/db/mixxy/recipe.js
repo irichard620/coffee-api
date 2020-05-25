@@ -21,18 +21,8 @@ function getIngredientDoc(ingredientModel) {
 function getStepDoc(stepModel) {
   const dbDoc = {};
   dbDoc.title = stepModel.title || '';
-  dbDoc.notes = stepModel.notes || '';
-  dbDoc.properties = stepModel.properties || {};
-  if (!('ingredients' in stepModel)) {
-    dbDoc.ingredients = [];
-  } else {
-    const ingredientList = [];
-    for (let i = 0; i < stepModel.ingredients.length; i += 1) {
-      ingredientList.push(getIngredientDoc(stepModel.ingredients[i]));
-    }
-    dbDoc.ingredients = ingredientList;
-  }
-  dbDoc.vessel = stepModel.vessel || '';
+  dbDoc.ingredients = stepModel.ingredients || [];
+  dbDoc.start_location = stepModel.startLocation || 0;
   return dbDoc;
 }
 
@@ -57,6 +47,12 @@ function getMixxyRecipeDoc(recipeModel) {
     stepsToAdd.push(getStepDoc(recipeModel.steps[i]));
   }
   dbDoc.steps = stepsToAdd;
+  // Ingredients
+  const ingredientsToAdd = [];
+  for (let i = 0; i < recipeModel.ingredients.length; i += 1) {
+    ingredientsToAdd.push(getIngredientDoc(recipeModel.ingredients[i]));
+  }
+  dbDoc.ingredients = ingredientsToAdd;
 
   // Recipe association
   dbDoc.sponsor_card_id = recipeModel.sponsor_card_id || '';
