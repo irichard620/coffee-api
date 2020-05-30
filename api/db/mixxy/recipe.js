@@ -22,7 +22,7 @@ function getStepDoc(stepModel) {
   const dbDoc = {};
   dbDoc.title = stepModel.title || '';
   dbDoc.ingredients = stepModel.ingredients || [];
-  dbDoc.start_location = stepModel.startLocation || 0;
+  dbDoc.start_location = stepModel.start_location || -1;
   return dbDoc;
 }
 
