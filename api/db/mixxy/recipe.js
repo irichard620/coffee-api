@@ -10,7 +10,6 @@ function getIngredientDoc(ingredientModel) {
 
   // Assign other values
   dbDoc.title = ingredientModel.title || '';
-  dbDoc.brand = ingredientModel.brand || '';
   dbDoc.amount = ingredientModel.amount || '0';
   dbDoc.fractional_amount = ingredientModel.fractional_amount || '';
   dbDoc.amount_type = ingredientModel.amount_type || '';
@@ -21,8 +20,6 @@ function getIngredientDoc(ingredientModel) {
 function getStepDoc(stepModel) {
   const dbDoc = {};
   dbDoc.title = stepModel.title || '';
-  dbDoc.ingredients = stepModel.ingredients || [];
-  dbDoc.start_location = stepModel.start_location || -1;
   return dbDoc;
 }
 
