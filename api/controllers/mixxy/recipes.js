@@ -105,7 +105,7 @@ function createSharedRecipeHandler(req, res) {
   )
   console.log(jwtToken)
   const instance = axios.create({
-    baseURL: 'https://api.development.devicecheck.apple.com',
+    baseURL: 'https://api.devicecheck.apple.com',
     timeout: 1000,
     headers: {'Authorization': `Bearer ${jwtToken}`}
   });
@@ -117,7 +117,6 @@ function createSharedRecipeHandler(req, res) {
     .then(function (response) {
       console.log(response)
       if (response.status !== 200) {
-        console.log(response.status)
         res.status(500);
         res.json('Invalid device');
       }
