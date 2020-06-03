@@ -8,12 +8,14 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "axios": "^0.19.2",
     "connect": "^3.3.5",
     "dotenv": "^8.0.0",
     "eslint": "^6.2.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "firebase-admin": "^8.3.0",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.7",
     "swagger-connect": "^0.7.0",
     "uuid": "^3.3.2"
