@@ -99,7 +99,7 @@ function createSharedRecipeHandler(req, res) {
   const collection = db.collection('mixxy_shared_recipes');
   // Check with apple about valid device
   const jwtToken = jwt.sign(
-    { iss: 'K78F8G9J87', iat: Math.floor(new Date() / 1000) },
+    { iss: 'K78F8G9J87', iat: Math.floor(Date.now() / 1000) },
     process.env.APPLE_PRIVATE_KEY,
     { algorithm: 'ES256', header: { kid: process.env.APPLE_KEY_ID } }
   )
@@ -112,7 +112,7 @@ function createSharedRecipeHandler(req, res) {
   instance.post('', {
       device_token: req.swagger.params.body.value.device_token,
       transaction_id: uuidv4(),
-      timestamp: new Date(),
+      timestamp: Date.now(),
     })
     .then(function (response) {
       console.log(response)
