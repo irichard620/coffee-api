@@ -138,7 +138,7 @@ function createSharedRecipeHandler(req, res) {
               res.json(err);
             } else {
               res.status(201);
-              res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy`);
+              res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy&st=${dbDoc.recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`);
             }
           });
         } else {
