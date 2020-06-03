@@ -931,3 +931,5 @@ definitions:
       status:
         type: string
         enum: ["ACTIVE", "INACTIVE"]
+      device_token:
+        type: string

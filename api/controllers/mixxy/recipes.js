@@ -94,6 +94,7 @@ function getRecipeDetailsHandler(req, res) {
 function createSharedRecipeHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_shared_recipes');
+  console.log(req.swagger.params.body.value)
   const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
   const recipeID = req.swagger.params.recipeID.value;
   collection.findOne({ recipe_id: recipeID }, (err, item) => {
