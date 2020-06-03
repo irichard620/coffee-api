@@ -97,13 +97,18 @@ function getRecipeDetailsHandler(req, res) {
 function createSharedRecipeHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_shared_recipes');
+
+  if (req.swagger.params.body.value.device_token === undefined || req.swagger.params.body.value.device_token === '') {
+    res.status(500);
+    res.json('No device token passed');
+  }
+
   // Check with apple about valid device
   const jwtToken = jwt.sign(
     { iss: 'K78F8G9J87', iat: Math.floor(Date.now() / 1000) },
     process.env.APPLE_PRIVATE_KEY,
     { algorithm: 'ES256', header: { kid: process.env.APPLE_KEY_ID } }
   )
-  console.log(jwtToken)
   const instance = axios.create({
     baseURL: process.env.APPLE_URL,
     timeout: 1000,
@@ -115,7 +120,6 @@ function createSharedRecipeHandler(req, res) {
       timestamp: Date.now(),
     })
     .then(function (response) {
-      console.log(response)
       if (response.status !== 200) {
         res.status(500);
         res.json('Invalid device');
@@ -152,9 +156,8 @@ function createSharedRecipeHandler(req, res) {
       });
     })
     .catch(function (error) {
-      console.log(error)
       res.status(500);
-      res.json(error);
+      res.json("Error occurred");
     });
 }
 
