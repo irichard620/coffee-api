@@ -109,7 +109,7 @@ function createSharedRecipeHandler(req, res) {
     timeout: 1000,
     headers: {'Authorization': `Bearer ${jwtToken}`}
   });
-  instance.post('', {
+  instance.post('/', {
       device_token: req.swagger.params.body.value.device_token,
       transaction_id: uuidv4(),
       timestamp: new Date(),
