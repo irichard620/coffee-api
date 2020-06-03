@@ -117,6 +117,7 @@ function createSharedRecipeHandler(req, res) {
     .then(function (response) {
       console.log(response)
       if (response.status !== 200) {
+        console.log(response.status)
         res.status(500);
         res.json('Invalid device');
       }
@@ -152,6 +153,7 @@ function createSharedRecipeHandler(req, res) {
       });
     })
     .catch(function (error) {
+      console.log(error)
       res.status(500);
       res.json(error);
     });
