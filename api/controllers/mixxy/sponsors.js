@@ -87,9 +87,29 @@ function getSponsorCardsHandler(req, res) {
   });
 }
 
+function getSponsorCardDetailsHandler(req, res) {
+  const db = getDb();
+  const collection = db.collection('mixxy_sponsor_cards');
+  const sponsorCardId = req.swagger.params.sponsorCardId.value;
+  collection.findOne({ card_id: sponsorCardId }, (err, item) => {
+    if (err) {
+      res.status(500);
+      res.json(err);
+    } else if (!item) {
+      res.status(404);
+      res.json('Not found!');
+    } else {
+      const sponsorItem = getSponsorCardDoc(item);
+      res.status(200);
+      res.json(sponsorItem);
+    }
+  });
+}
+
 module.exports = {
   createMixxySponsor: createSponsorHandler,
   createMixxySponsorCard: createSponsorCardHandler,
   getMixxySponsorCards: getSponsorCardsHandler,
   getMixxySponsor: getSponsorHandler,
+  getMixxySponsorCardDetails: getSponsorCardDetailsHandler,
 };

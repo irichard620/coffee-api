@@ -353,6 +353,28 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/sponsor-cards/{sponsorCardId}:
+    x-swagger-router-controller: mixxy/sponsors
+    get:
+      description: Return details for specific sponsor
+      operationId: getMixxySponsorCardDetails
+      parameters:
+        - in: path
+          name: sponsorCardId
+          description: ID of sponsor card
+          required: true
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/MixxySponsorCard"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /mixxy/sponsors/{sponsorID}/cards:
     x-swagger-router-controller: mixxy/sponsors
     post:
