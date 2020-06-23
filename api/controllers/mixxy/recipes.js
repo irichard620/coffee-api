@@ -94,6 +94,32 @@ function getRecipeDetailsHandler(req, res) {
   });
 }
 
+function getLongLink(recipe_id, recipe_name) {
+  return `https://mixxy.page.link/?link=https://mixxyapp.com/${recipe_id}&ibi=com.IanRichard.Mixxy&st=${recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`
+}
+
+function getShortenedLink(recipe_id, recipe_name) {
+  const instance = axios.create({
+    baseURL: process.env.FIREBASE_URL,
+    timeout: 1000,
+  });
+  return instance.post('', {
+    longDynamicLink: getLongLink(recipe_id, recipe_name),
+    suffix: {
+      option: "SHORT"
+    }
+  })
+  .then(function (response) {
+    if (response.status >= 200 && response.status < 300) {
+      return [response.data, null]
+    }
+    return [null, "error"]
+  })
+  .catch(function (error) {
+    return [null, error]
+  });
+}
+
 function createSharedRecipeHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_shared_recipes');
@@ -137,8 +163,16 @@ function createSharedRecipeHandler(req, res) {
               res.status(500);
               res.json(err);
             } else {
-              res.status(201);
-              res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy&st=${dbDoc.recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`);
+              getShortenedLink(dbDoc.recipe_id, dbDoc.recipe_name)
+              .then(function (response) {
+                if (response[1]) {
+                  res.status(500);
+                  res.json("Error occurred while generating link");
+                } else {
+                  res.status(201);
+                  res.json(response[0].shortLink)
+                }
+              })
             }
           });
         } else {
@@ -148,8 +182,16 @@ function createSharedRecipeHandler(req, res) {
               res.status(500);
               res.json(err2);
             } else {
-              res.status(201);
-              res.json(`https://mixxy.page.link/?link=https://mixxyapp.com/${dbDoc.recipe_id}&ibi=com.IanRichard.Mixxy&st=${dbDoc.recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`);
+              getShortenedLink(dbDoc.recipe_id, dbDoc.recipe_name)
+              .then(function (response) {
+                if (response[1]) {
+                  res.status(500);
+                  res.json("Error occurred while generating link");
+                } else {
+                  res.status(201);
+                  res.json(response[0].shortLink)
+                }
+              })
             }
           });
         }
