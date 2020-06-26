@@ -30,7 +30,7 @@ function getRecipesHandler(req, res) {
   // Passed in values
   if (req.swagger.params.sponsor_card_id.value) {
     const sponsorCardId = req.swagger.params.sponsor_card_id.value;
-    collection.find({ status: 'ACTIVE', sponsor_card_id: sponsorCardId }).toArray((err, items) => {
+    collection.find({ status: 'ACTIVE', sponsor_card_id: sponsorCardId }).sort({ recipe_name: 1 }).toArray((err, items) => {
       if (err) {
         res.status(500);
         res.json(err);
@@ -41,7 +41,7 @@ function getRecipesHandler(req, res) {
     });
   } else if (req.swagger.params.campaign_id.value) {
     const campaignId = req.swagger.params.campaign_id.value;
-    collection.find({ status: 'ACTIVE', campaign_id: campaignId }).toArray((err, items) => {
+    collection.find({ status: 'ACTIVE', campaign_id: campaignId }).sort({ recipe_name: 1 }).toArray((err, items) => {
       if (err) {
         res.status(500);
         res.json(err);
@@ -52,7 +52,7 @@ function getRecipesHandler(req, res) {
     });
   } else if (req.swagger.params.master_list_id.value) {
     const masterListId = req.swagger.params.master_list_id.value;
-    collection.find({ status: 'ACTIVE', master_list_id: masterListId }).toArray((err, items) => {
+    collection.find({ status: 'ACTIVE', master_list_id: masterListId }).sort({ recipe_name: 1 }).toArray((err, items) => {
       if (err) {
         res.status(500);
         res.json(err);
