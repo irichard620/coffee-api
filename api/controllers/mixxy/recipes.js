@@ -141,66 +141,79 @@ function createSharedRecipeHandler(req, res) {
     headers: {'Authorization': `Bearer ${jwtToken}`}
   });
   instance.post('', {
-      device_token: req.swagger.params.body.value.device_token,
-      transaction_id: uuidv4(),
-      timestamp: Date.now(),
-    })
-    .then(function (response) {
-      if (response.status !== 200) {
-        res.status(500);
-        res.json('Invalid device');
-      }
-      // Get db doc
-      const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
-      const recipeID = req.swagger.params.recipeID.value;
-      collection.findOne({ recipe_id: recipeID }, (err, item) => {
-        if (err) {
-          res.status(500);
-          res.json(err);
-        } else if (!item) {
-          collection.insertOne(dbDoc, (err2) => {
-            if (err2) {
-              res.status(500);
-              res.json(err);
-            } else {
-              getShortenedLink(dbDoc.recipe_id, dbDoc.recipe_name)
-              .then(function (response) {
-                if (response[1]) {
-                  res.status(500);
-                  res.json("Error occurred while generating link");
-                } else {
-                  res.status(201);
-                  res.json(response[0].shortLink)
-                }
-              })
-            }
-          });
-        } else {
-          const newValues = { $set: dbDoc };
-          collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
-            if (err2) {
-              res.status(500);
-              res.json(err2);
-            } else {
-              getShortenedLink(dbDoc.recipe_id, dbDoc.recipe_name)
-              .then(function (response) {
-                if (response[1]) {
-                  res.status(500);
-                  res.json("Error occurred while generating link");
-                } else {
-                  res.status(201);
-                  res.json(response[0].shortLink)
-                }
-              })
-            }
-          });
-        }
-      });
-    })
-    .catch(function (error) {
+    device_token: req.swagger.params.body.value.device_token,
+    transaction_id: uuidv4(),
+    timestamp: Date.now(),
+  })
+  .then(function (response) {
+    if (response.status !== 200) {
       res.status(500);
-      res.json("Error occurred");
+      res.json('Invalid device');
+    }
+    // Get db doc
+    const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
+    const recipeID = req.swagger.params.recipeID.value;
+    collection.findOne({ recipe_id: recipeID }, (err, item) => {
+      if (err) {
+        res.status(500);
+        res.json(err);
+      } else if (!item) {
+        getShortenedLink(recipeID, dbDoc.recipe_name)
+        .then(function (response) {
+          if (response[1]) {
+            res.status(500);
+            res.json("Error occurred while generating link");
+          } else {
+            dbDoc.short_link = response[0].shortLink
+            collection.insertOne(dbDoc, (err2) => {
+              if (err2) {
+                res.status(500);
+                res.json(err);
+              } else {
+                res.status(201);
+                res.json(dbDoc.short_link)
+              }
+            })
+          }
+        })
+      } else if (item.short_link) {
+        const newValues = { $set: dbDoc };
+        collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
+          if (err2) {
+            res.status(500);
+            res.json(err2);
+          } else {
+            res.status(201);
+            res.json(item.short_link)
+          }
+        });
+      } else {
+        getShortenedLink(recipeID, dbDoc.recipe_name)
+        .then(function (response) {
+          if (response[1]) {
+            res.status(500);
+            res.json("Error occurred while generating link");
+          } else {
+            dbDoc.short_link = response[0].shortLink
+            const newValues = { $set: dbDoc };
+            collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
+              if (err2) {
+                res.status(500);
+                res.json(err2);
+              } else {
+                res.status(201);
+                res.json(dbDoc.short_link)
+              }
+            });
+          }
+        })
+      }
     });
+  })
+  .catch(function (error) {
+    res.status(500);
+    res.json("Error occurred");
+  });
 }
 
 module.exports = {
