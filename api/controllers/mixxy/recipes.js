@@ -95,7 +95,7 @@ function getRecipeDetailsHandler(req, res) {
 }
 
 function getLongLink(recipe_id, recipe_name) {
-  return `https://mixxy.page.link/?link=https://mixxyapp.com/${recipe_id}&ibi=com.IanRichard.Mixxy&st=${recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`
+  return `https://mixxy.page.link/?link=https://mixxyapp.com/${recipe_id}&ibi=com.IanRichard.Mixxy&isi=1503445869&st=${recipe_name}&si=https://res.cloudinary.com/dn9lxhqla/image/upload/v1591222016/Thumbnail_b4iyzg.jpg`
 }
 
 function getShortenedLink(recipe_id, recipe_name) {
