@@ -524,6 +524,10 @@ paths:
           description: ID of sponsor card
           type: string
           format: uuid
+        - in: query
+          name: version
+          description: app version
+          type: string
       responses:
         "200":
           description: Success
@@ -546,6 +550,10 @@ paths:
           required: true
           type: string
           format: uuid
+        - in: query
+          name: version
+          description: app version
+          type: string
       responses:
         "200":
           description: Success

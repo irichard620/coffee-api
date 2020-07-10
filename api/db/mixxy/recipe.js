@@ -1,6 +1,6 @@
 const uuidv4 = require('uuid/v4');
 
-function getIngredientDoc(ingredientModel) {
+function getIngredientDoc(ingredientModel, version) {
   const dbDoc = {};
   if (!ingredientModel.ingredient_id) {
     dbDoc.ingredient_id = uuidv4();
@@ -14,7 +14,55 @@ function getIngredientDoc(ingredientModel) {
   dbDoc.fractional_amount = ingredientModel.fractional_amount || '';
   dbDoc.amount_type = ingredientModel.amount_type || '';
 
+  if (!version || version !== '1.0.1') {
+    if (dbDoc.amount_type === '') {
+      dbDoc.amount_type = 'Piece'
+    } else if (dbDoc.amount_type === 'Milliliter' || dbDoc.amount_type === 'Centiliter') {
+      let rawDecimal = parseInt(dbDoc.amount)
+      if (dbDoc.fractional_amount !== '') {
+        const splits = dbDoc.fractional_amount.split('/')
+        if (splits.length === 2) {
+          rawDecimal += parseInt(splits[0]) / parseInt(splits[1])
+        }
+      }
+      const multiplier = dbDoc.amount_type === 'Milliliter' ? 0.0338 : 0.338
+      const rawConvertedDecimal = rawDecimal * multiplier
+      const convertedDecimalToEighth = Math.round(rawConvertedDecimal * 8) / 8
+      const splitConvertedDecimalToEighth = [
+        convertedDecimalToEighth > 0
+            ? Math.floor(convertedDecimalToEighth)
+            : Math.ceil(convertedDecimalToEighth),
+        convertedDecimalToEighth % 1,
+      ]
+      dbDoc.amount = splitConvertedDecimalToEighth[0].toString()
+      dbDoc.fractional_amount = getFractionFromRoundedDecimal(splitConvertedDecimalToEighth[1])
+      dbDoc.amount_type = 'Ounce'
+    }
+  }
+
   return dbDoc;
+}
+
+function getFractionFromRoundedDecimal(roundedDecimal) {
+  switch (roundedDecimal) {
+    case 0:
+      return ''
+    case 0.125:
+      return '1/8'
+    case 0.25:
+      return '1/4'
+    case 0.375:
+      return '3/8'
+    case 0.5:
+      return '1/2'
+    case 0.625:
+      return '5/8'
+    case 0.75:
+      return '3/4'
+    case 0.875:
+      return '7/8'
+  }
+  return ''
 }
 
 function getStepDoc(stepModel) {
@@ -23,7 +71,7 @@ function getStepDoc(stepModel) {
   return dbDoc;
 }
 
-function getMixxyRecipeDoc(recipeModel) {
+function getMixxyRecipeDoc(recipeModel, version) {
   const dbDoc = {};
   if (!recipeModel.recipe_id) {
     dbDoc.recipe_id = uuidv4();
@@ -47,7 +95,7 @@ function getMixxyRecipeDoc(recipeModel) {
   // Ingredients
   const ingredientsToAdd = [];
   for (let i = 0; i < recipeModel.ingredients.length; i += 1) {
-    ingredientsToAdd.push(getIngredientDoc(recipeModel.ingredients[i]));
+    ingredientsToAdd.push(getIngredientDoc(recipeModel.ingredients[i], version));
   }
   dbDoc.ingredients = ingredientsToAdd;
 

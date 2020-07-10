@@ -26,6 +26,7 @@ function createRecipeHandler(req, res) {
 
 function getRecipesHandler(req, res) {
   const db = getDb();
+  const version = req.swagger.params.version.value;
   const collection = db.collection('mixxy_recipes');
   // Passed in values
   if (req.swagger.params.sponsor_card_id.value) {
@@ -35,8 +36,12 @@ function getRecipesHandler(req, res) {
         res.status(500);
         res.json(err);
       } else {
+        const recipes = []
+        for (let item of items) {
+          recipes.push(getMixxyRecipeDoc(item, version))
+        }
         res.status(200);
-        res.json(items);
+        res.json(recipes);
       }
     });
   } else if (req.swagger.params.campaign_id.value) {
@@ -46,8 +51,12 @@ function getRecipesHandler(req, res) {
         res.status(500);
         res.json(err);
       } else {
+        const recipes = []
+        for (let item of items) {
+          recipes.push(getMixxyRecipeDoc(item, version))
+        }
         res.status(200);
-        res.json(items);
+        res.json(recipes);
       }
     });
   } else if (req.swagger.params.master_list_id.value) {
@@ -57,8 +66,12 @@ function getRecipesHandler(req, res) {
         res.status(500);
         res.json(err);
       } else {
+        const recipes = []
+        for (let item of items) {
+          recipes.push(getMixxyRecipeDoc(item, version))
+        }
         res.status(200);
-        res.json(items);
+        res.json(recipes);
       }
     });
   } else {
@@ -77,6 +90,7 @@ function getRecipesHandler(req, res) {
 
 function getRecipeDetailsHandler(req, res) {
   const db = getDb();
+  const version = req.swagger.params.version.value;
   const collection = db.collection('mixxy_shared_recipes');
   const recipeID = req.swagger.params.recipeID.value;
   collection.findOne({ recipe_id: recipeID }, (err, item) => {
@@ -87,7 +101,7 @@ function getRecipeDetailsHandler(req, res) {
       res.status(404);
       res.json('Not found!');
     } else {
-      const recipeItem = getMixxyRecipeDoc(item);
+      const recipeItem = getMixxyRecipeDoc(item, version);
       res.status(200);
       res.json(recipeItem);
     }
@@ -151,7 +165,7 @@ function createSharedRecipeHandler(req, res) {
       res.json('Invalid device');
     }
     // Get db doc
-    const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value);
+    const dbDoc = getMixxyRecipeDoc(req.swagger.params.body.value, '1.0.1');
     const recipeID = req.swagger.params.recipeID.value;
     collection.findOne({ recipe_id: recipeID }, (err, item) => {
       if (err) {
