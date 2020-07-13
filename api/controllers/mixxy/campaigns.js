@@ -24,7 +24,7 @@ function createCampaignHandler(req, res) {
 function getCampaignsHandler(req, res) {
   const db = getDb();
   const collection = db.collection('mixxy_campaigns');
-  collection.find({ status: 'ACTIVE' }).toArray((err, items) => {
+  collection.find({ status: 'ACTIVE' }).sort({ order: 1 }).toArray((err, items) => {
     if (err) {
       res.status(500);
       res.json(err);
