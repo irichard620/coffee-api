@@ -12,6 +12,7 @@ function getSponsorCardDoc(cardModel) {
   dbDoc.sponsor_type = cardModel.sponsor_type || '';
   dbDoc.hq_location = cardModel.hq_location || '';
   dbDoc.website = cardModel.website || '';
+  dbDoc.websiteLabel = cardModel.websiteLabel || '';
   dbDoc.about = cardModel.about || '';
   dbDoc.logo_link = cardModel.logo_link || '';
   dbDoc.tags = cardModel.tags || [];

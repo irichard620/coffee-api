@@ -823,6 +823,8 @@ definitions:
         type: string
       website:
         type: string
+      website_label:
+        type: string
       about:
         type: string
       logo_link:
