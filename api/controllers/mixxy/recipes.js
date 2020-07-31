@@ -75,7 +75,7 @@ function getRecipesHandler(req, res) {
       }
     });
   } else {
-    collection.find({ status: 'ACTIVE' })
+    collection.find({ status: 'ACTIVE' }).sort({ recipe_name: 1 })
       .toArray((err, items) => {
         if (err) {
           res.status(500);

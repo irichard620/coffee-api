@@ -14,7 +14,7 @@ function getIngredientDoc(ingredientModel, version) {
   dbDoc.fractional_amount = ingredientModel.fractional_amount || '';
   dbDoc.amount_type = ingredientModel.amount_type || '';
 
-  if (!version || version !== '1.0.1') {
+  if (!version || version === '1.0.0') {
     if (dbDoc.amount_type === '') {
       dbDoc.amount_type = 'Piece'
     } else if (dbDoc.amount_type === 'Milliliter' || dbDoc.amount_type === 'Centiliter') {
