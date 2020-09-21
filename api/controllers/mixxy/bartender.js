@@ -1,0 +1,36 @@
+const { getDb } = require('../../db/db')
+
+async function getBartenderRecipesHandler(req, res) {
+  try {
+    const db = getDb()
+    const collection = db.collection('mixxy_recipes')
+    const ingredientIds = req.swagger.params.body.value.ingredientIds || []
+    const allRecipes = await collection.find({ status: 'ACTIVE' }).toArray()
+    const matchedRecipes = []
+    for (let recipe of allRecipes) {
+      const requiredIngredients = recipe.ingredients.filter(
+        (ingredient) => !(ingredient.amount_type === 'Garnish' || ingredient.amount_type === 'Rim')
+      )
+      const missingIngredients = requiredIngredients.filter((ingredient) =>
+        Array.isArray(ingredient.ingredient_id)
+          ? !ingredient.ingredient_id.some((ingredientId) => !ingredientIds.includes(ingredientId))
+          : !ingredientIds.includes(ingredient.ingredient_id)
+      )
+      if (missingIngredients.length < requiredIngredients.length) {
+        // If we have atleast one ingredient, add recipe
+        recipe.missingCount = missingIngredients.length
+        matchedRecipes.push(recipe)
+      }
+    }
+    let sortedRecipes = matchedRecipes.sort((a, b) => (a.missingCount > b.missingCount ? 1 : -1))
+    res.status(200)
+    res.json(sortedRecipes)
+  } catch (err) {
+    res.status(500)
+    res.json(err)
+  }
+}
+
+module.exports = {
+  getBartenderRecipes: getBartenderRecipesHandler,
+}
