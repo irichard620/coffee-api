@@ -8,8 +8,6 @@ host: localhost:10010
 basePath: /
 #
 schemes:
-  # tip: remove http to make production-grade
-  - http
   - https
 # format of bodies a client can send (Content-Type)
 consumes:
@@ -538,6 +536,38 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/bartender/recipes:
+    x-swagger-router-controller: mixxy/bartender
+    put:
+      description: Returns all matching bartender recipes
+      operationId: getBartenderRecipes
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: true
+          schema:
+            title: Ingredient body
+            type: object
+            properties:
+              ingredientIds:
+                type: array
+                items:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of recipes
+            type: array
+            items:
+              $ref: "#/definitions/MixxyRecipe"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /mixxy/recipes/{recipeID}:
     x-swagger-router-controller: mixxy/recipes
     get:
@@ -761,21 +791,15 @@ definitions:
   # Mixxy models
   MixxyIngredient:
     required:
-      - title
-      - description
+      - name
     properties:
       ingredient_id:
         type: string
         format: uuid
-      title:
+      name:
         type: string
-      common_name:
+      category:
         type: string
-      description:
-        type: string
-      classification:
-        type: string
-        enum: ["Alcoholic", "Non-alcoholic", "Culinary", "Ice"]
   MixxySponsor:
     required:
       - sponsor_name
