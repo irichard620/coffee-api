@@ -26,7 +26,7 @@ function getIngredientsHandler(req, res) {
   const collection = db.collection('mixxy_ingredients')
   collection
     .find({})
-    .sort({ title: 1 })
+    .sort({ name: 1 })
     .toArray((err, ingredientItems) => {
       if (err) {
         res.status(500)
