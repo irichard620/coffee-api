@@ -13,7 +13,7 @@ async function getBartenderRecipesHandler(req, res) {
       )
       const missingIngredients = requiredIngredients.filter((ingredient) =>
         Array.isArray(ingredient.ingredient_id)
-          ? !ingredient.ingredient_id.some((ingredientId) => !ingredientIds.includes(ingredientId))
+          ? !ingredient.ingredient_id.some((ingredientId) => ingredientIds.includes(ingredientId))
           : !ingredientIds.includes(ingredient.ingredient_id)
       )
       if (missingIngredients.length < requiredIngredients.length) {
