@@ -5,7 +5,9 @@ async function getBartenderRecipesHandler(req, res) {
     const db = getDb()
     const collection = db.collection('mixxy_recipes')
     const ingredientIds = req.swagger.params.body.value.ingredientIds || []
-    const allRecipes = await collection.find({ status: 'ACTIVE' }).toArray()
+    const baseSpirit = req.swagger.params.body.value.baseSpirit || ''
+    const baseSpiritFilter = baseSpirit !== '' ? { base_spirit: baseSpirit } : {}
+    const allRecipes = await collection.find({ status: 'ACTIVE', ...baseSpiritFilter }).toArray()
     const matchedRecipes = []
     for (let recipe of allRecipes) {
       const requiredIngredients = recipe.ingredients.filter(

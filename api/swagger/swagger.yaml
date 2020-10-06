@@ -555,6 +555,8 @@ paths:
                 items:
                   type: string
                   format: uuid
+              baseSpirit:
+                type: string
       responses:
         "200":
           description: Success
