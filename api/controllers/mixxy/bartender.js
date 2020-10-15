@@ -2,7 +2,12 @@ const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 
 async function getBartenderRecipesHandler(req, res) {
+  let transaction
   try {
+    transaction = Sentry.startTransaction({
+      op: 'transaction',
+      name: 'Bartender Transaction',
+    })
     const db = getDb()
     const collection = db.collection('mixxy_recipes')
     const ingredientIds = req.swagger.params.body.value.ingredientIds || []
@@ -32,6 +37,10 @@ async function getBartenderRecipesHandler(req, res) {
     Sentry.captureException(err)
     res.status(500)
     res.json(err)
+  } finally {
+    if (transaction) {
+      transaction.finish()
+    }
   }
 }
 

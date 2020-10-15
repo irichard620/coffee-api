@@ -1,5 +1,6 @@
 const SwaggerConnect = require('swagger-connect')
 const Sentry = require('@sentry/node')
+require('@sentry/tracing')
 require('dotenv').config()
 const admin = require('firebase-admin')
 const app = require('connect')()
