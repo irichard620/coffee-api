@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const jwt = require('jsonwebtoken')
 const axios = require('axios').default
 const uuidv4 = require('uuid/v4')
@@ -36,6 +37,7 @@ function getRecipesHandler(req, res) {
       .sort({ recipe_name: 1 })
       .toArray((err, items) => {
         if (err) {
+          Sentry.captureException(err)
           res.status(500)
           res.json(err)
         } else {
@@ -54,6 +56,7 @@ function getRecipesHandler(req, res) {
       .sort({ recipe_name: 1 })
       .toArray((err, items) => {
         if (err) {
+          Sentry.captureException(err)
           res.status(500)
           res.json(err)
         } else {
@@ -72,6 +75,7 @@ function getRecipesHandler(req, res) {
       .sort({ recipe_name: 1 })
       .toArray((err, items) => {
         if (err) {
+          Sentry.captureException(err)
           res.status(500)
           res.json(err)
         } else {
@@ -89,6 +93,7 @@ function getRecipesHandler(req, res) {
       .sort({ recipe_name: 1 })
       .toArray((err, items) => {
         if (err) {
+          Sentry.captureException(err)
           res.status(500)
           res.json(err)
         } else {
@@ -110,6 +115,7 @@ function getRecipeDetailsHandler(req, res) {
   const recipeID = req.swagger.params.recipeID.value
   collection.findOne({ recipe_id: recipeID }, (err, item) => {
     if (err) {
+      Sentry.captureException(err)
       res.status(500)
       res.json(err)
     } else if (!item) {
@@ -146,6 +152,7 @@ function getShortenedLink(recipeId, recipeName) {
       return [null, 'error']
     })
     .catch(function(error) {
+      Sentry.captureException(error)
       return [null, error]
     })
 }
@@ -189,6 +196,7 @@ function createSharedRecipeHandler(req, res) {
       const recipeID = req.swagger.params.recipeID.value
       collection.findOne({ recipe_id: recipeID }, (err, item) => {
         if (err) {
+          Sentry.captureException(err)
           res.status(500)
           res.json(err)
         } else if (!item) {
@@ -200,6 +208,7 @@ function createSharedRecipeHandler(req, res) {
               dbDoc.short_link = response[0].shortLink
               collection.insertOne(dbDoc, (err2) => {
                 if (err2) {
+                  Sentry.captureException(err2)
                   res.status(500)
                   res.json(err)
                 } else {
@@ -213,6 +222,7 @@ function createSharedRecipeHandler(req, res) {
           const newValues = { $set: dbDoc }
           collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
             if (err2) {
+              Sentry.captureException(err2)
               res.status(500)
               res.json(err2)
             } else {
@@ -230,6 +240,7 @@ function createSharedRecipeHandler(req, res) {
               const newValues = { $set: dbDoc }
               collection.updateOne({ recipe_id: recipeID }, newValues, (err2, dbRes) => {
                 if (err2) {
+                  Sentry.captureException(err2)
                   res.status(500)
                   res.json(err2)
                 } else {
@@ -242,7 +253,8 @@ function createSharedRecipeHandler(req, res) {
         }
       })
     })
-    .catch(() => {
+    .catch((err) => {
+      Sentry.captureException(err)
       res.status(500)
       res.json('Error occurred')
     })

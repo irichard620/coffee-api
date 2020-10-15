@@ -1,4 +1,5 @@
 const SwaggerConnect = require('swagger-connect')
+const Sentry = require('@sentry/node')
 require('dotenv').config()
 const admin = require('firebase-admin')
 const app = require('connect')()
@@ -20,6 +21,14 @@ const firebaseConfig = {
   messagingSenderId: '1067564843347',
   appId: '1:1067564843347:web:486992b804c221c6',
 }
+
+Sentry.init({
+  dsn: 'https://323d41c126da4edca4a59221e23a37a1@o461755.ingest.sentry.io/5463980',
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+})
 
 // Initialize Firebase
 admin.initializeApp(firebaseConfig)

@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 
 async function getBartenderRecipesHandler(req, res) {
@@ -28,6 +29,7 @@ async function getBartenderRecipesHandler(req, res) {
     res.status(200)
     res.json(sortedRecipes)
   } catch (err) {
+    Sentry.captureException(err)
     res.status(500)
     res.json(err)
   }

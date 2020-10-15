@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 const getIngredientDoc = require('../../db/mixxy/ingredient')
 
@@ -29,6 +30,7 @@ function getIngredientsHandler(req, res) {
     .sort({ name: 1 })
     .toArray((err, ingredientItems) => {
       if (err) {
+        Sentry.captureException(err)
         res.status(500)
         res.json(err)
       } else {

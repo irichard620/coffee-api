@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 const getSponsorDoc = require('../../db/mixxy/sponsor')
 const getSponsorCardDoc = require('../../db/mixxy/sponsor_card')
@@ -78,6 +79,7 @@ function getSponsorCardsHandler(req, res) {
   const cardsCollection = db.collection('mixxy_sponsor_cards')
   cardsCollection.find({ status: 'ACTIVE' }).toArray((err, items) => {
     if (err) {
+      Sentry.captureException(err)
       res.status(500)
       res.json(err)
     } else {
@@ -93,6 +95,7 @@ function getSponsorCardDetailsHandler(req, res) {
   const sponsorCardId = req.swagger.params.sponsorCardId.value
   collection.findOne({ card_id: sponsorCardId }, (err, item) => {
     if (err) {
+      Sentry.captureException(err)
       res.status(500)
       res.json(err)
     } else if (!item) {

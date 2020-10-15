@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 const getCampaignDoc = require('../../db/mixxy/campaign')
 
@@ -29,6 +30,7 @@ function getCampaignsHandler(req, res) {
     .sort({ order: 1 })
     .toArray((err, items) => {
       if (err) {
+        Sentry.captureException(err)
         res.status(500)
         res.json(err)
       } else {

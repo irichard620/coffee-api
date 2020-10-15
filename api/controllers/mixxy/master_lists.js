@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
 const getMasterListDoc = require('../../db/mixxy/master_list')
 
@@ -26,6 +27,7 @@ function getMasterListsHandler(req, res) {
   const collection = db.collection('mixxy_master_lists')
   collection.find({ status: 'ACTIVE' }).toArray((err, items) => {
     if (err) {
+      Sentry.captureException(err)
       res.status(500)
       res.json(err)
     } else {
