@@ -570,6 +570,24 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/blogs:
+    x-swagger-router-controller: mixxy/blogs
+    get:
+      description: Returns all blogs
+      operationId: getBlogs
+      responses:
+        "200":
+          description: Success
+          schema:
+            title: List of blogs
+            type: array
+            items:
+              $ref: "#/definitions/MixxyBlog"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /mixxy/recipes/{recipeID}:
     x-swagger-router-controller: mixxy/recipes
     get:
@@ -991,3 +1009,48 @@ definitions:
         enum: ["ACTIVE", "INACTIVE"]
       device_token:
         type: string
+  MixxyAuthor:
+    required:
+      - author_id
+      - name
+    properties:
+      author_id:
+        type: string
+        format: uuid
+      name:
+        type: string
+      profile_image_link:
+        type: string
+  MixxyBlog:
+    required:
+      - title
+      - body
+      - hero_image_link
+      - created_at
+    properties:
+      blog_id:
+        type: string
+        format: uuid
+      title:
+        type: string
+      subtitle:
+        type: string
+      body:
+        type: string
+      hero_image_link:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      author:
+        $ref: "#/definitions/MixxyAuthor"
+      sponsor_card:
+        $ref: "#/definitions/MixxySponsorCard"
+      tags:
+        type: array
+        items:
+          type: string
+      recipes:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyRecipe"
