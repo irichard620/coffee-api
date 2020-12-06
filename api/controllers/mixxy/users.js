@@ -28,9 +28,9 @@ async function createUserHandler(req, res) {
       }
       // Create user
       const userItem = getUserDoc(req.swagger.params.body.value)
-      await collection.insertOne(userItem)
+      const newUser = await collection.insertOne(userItem)
       res.status(201)
-      res.json('Successfully created user')
+      res.json(newUser)
     } else {
       if (existingUser.auth_id && existingUser.auth_id !== req.uid) {
         res.status(409)
