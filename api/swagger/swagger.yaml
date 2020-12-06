@@ -641,6 +641,28 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/users:
+    x-swagger-router-controller: mixxy/users
+    post:
+      description: Verify display name and create user if doesn't exist
+      operationId: createUser
+      parameters:
+        - in: body
+          name: body
+          description: user object
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/User"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -1056,3 +1078,16 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/MixxyRecipe"
+  User:
+    required:
+      - email
+    properties:
+      user_id:
+        type: string
+        format: uuid
+      auth_id:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
