@@ -14,13 +14,14 @@ const config = {
 }
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDcZy08LfkZkpoxqxtluSTVvnYjLKq-mzk',
-  authDomain: 'drippy-505b3.firebaseapp.com',
-  databaseURL: 'https://drippy-505b3.firebaseio.com',
-  projectId: 'drippy-505b3',
-  storageBucket: '',
-  messagingSenderId: '1067564843347',
-  appId: '1:1067564843347:web:486992b804c221c6',
+  apiKey: 'AIzaSyBIzSlQna3kG02vBcN5WFXBQrFjk64GH5k',
+  authDomain: 'mixxy-90fce.firebaseapp.com',
+  databaseURL: 'https://mixxy-90fce.firebaseio.com',
+  projectId: 'mixxy-90fce',
+  storageBucket: 'mixxy-90fce.appspot.com',
+  messagingSenderId: '205781924664',
+  appId: '1:205781924664:web:31b50952bf8b0658395fcd',
+  measurementId: 'G-TPVW7CYSRJ',
 }
 
 Sentry.init({

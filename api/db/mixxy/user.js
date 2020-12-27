@@ -8,8 +8,16 @@ function getUserDoc(userModel) {
     dbDoc.user_id = userModel.user_id
   }
   dbDoc.auth_id = userModel.auth_id || ''
-  dbDoc.display_name = userModel.display_name || ''
-  dbDoc.email = userModel.email || ''
+  if (userModel.display_name) {
+    dbDoc.display_name = userModel.display_name
+  } else {
+    dbDoc.display_name = 'Mixxy user'
+  }
+  if (userModel.email) {
+    dbDoc.email = userModel.email.toLowerCase()
+  } else {
+    dbDoc.email = ''
+  }
   return dbDoc
 }
 

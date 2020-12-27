@@ -19,6 +19,7 @@
     "@sentry/node": "^5.26.0",
     "@sentry/tracing": "^5.26.0",
     "axios": "^0.19.2",
+    "bad-words": "^3.0.4",
     "connect": "^3.3.5",
     "dotenv": "^8.0.0",
     "firebase-admin": "^8.3.0",
