@@ -9,9 +9,9 @@ function getUserDoc(userModel) {
   }
   dbDoc.auth_id = userModel.auth_id || ''
   if (userModel.display_name) {
-    dbDoc.display_name = userModel.display_name
+    dbDoc.display_name = userModel.display_name.toLowerCase()
   } else {
-    dbDoc.display_name = 'Mixxy user'
+    dbDoc.display_name = ''
   }
   if (userModel.email) {
     dbDoc.email = userModel.email.toLowerCase()

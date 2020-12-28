@@ -43,14 +43,7 @@ async function createUserHandler(req, res) {
 
     // If no user, create with email and display name
     if (!existingUser) {
-      let displayName = req.swagger.params.body.value.display_name
-
-      // Check for profanity
-      if (filter.isProfane(displayName)) {
-        res.status(400)
-        res.json('Profanity')
-        return
-      }
+      // let displayName = req.swagger.params.body.value.display_name
 
       // Create user
       const userItem = getUserDoc({ ...req.swagger.params.body.value, auth_id: req.uid })
@@ -75,6 +68,48 @@ async function createUserHandler(req, res) {
   }
 }
 
+async function updateDisplayNameHandler(req, res) {
+  try {
+    const db = getDb()
+    const collection = db.collection('mixxy_users')
+
+    // If user, check if auth_id exists
+    if (!req.uid || req.uid === '') {
+      res.status(400)
+      res.json('Missing auth id')
+      return
+    }
+
+    const displayName = req.swagger.params.body.value.display_name
+    const existingDisplayName = await collection.findOne({
+      display_name: displayName.toLowerCase(),
+    })
+    if (existingDisplayName) {
+      res.status(409)
+      res.json('Display name conflict')
+      return
+    }
+
+    if (filter.isProfane(displayName)) {
+      res.status(400)
+      res.json('Profanity')
+      return
+    }
+
+    const newValues = { $set: { display_name: displayName.toLowerCase() } }
+    await collection.updateOne({ auth_id: req.uid }, newValues)
+
+    res.status(200)
+    res.json('Display name updated')
+    return
+  } catch (err) {
+    Sentry.captureException(err)
+    res.status(500)
+    res.json(err)
+  }
+}
+
 module.exports = {
   createUser: createUserHandler,
+  updateDisplayName: updateDisplayNameHandler,
 }

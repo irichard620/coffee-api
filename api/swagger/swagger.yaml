@@ -663,6 +663,31 @@ paths:
           schema:
             description: Error message
             type: string
+    put:
+      description: Update display name for a user
+      operationId: updateDisplayName
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: true
+          schema:
+            title: Update body
+            type: object
+            properties:
+              display_name:
+                type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            description: Success
+            type: string
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
