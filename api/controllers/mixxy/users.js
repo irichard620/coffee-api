@@ -80,7 +80,9 @@ async function updateDisplayNameHandler(req, res) {
       return
     }
 
+    // TODO: screen display name for unwanted characters
     const displayName = req.swagger.params.body.value.display_name
+    const fullName = req.swagger.params.body.value.full_name
     const existingDisplayName = await collection.findOne({
       display_name: displayName.toLowerCase(),
     })
@@ -90,13 +92,13 @@ async function updateDisplayNameHandler(req, res) {
       return
     }
 
-    if (filter.isProfane(displayName)) {
+    if (filter.isProfane(displayName) || filter.isProfane(fullName)) {
       res.status(400)
       res.json('Profanity')
       return
     }
 
-    const newValues = { $set: { display_name: displayName.toLowerCase() } }
+    const newValues = { $set: { display_name: displayName.toLowerCase(), full_name: fullName } }
     await collection.updateOne({ auth_id: req.uid }, newValues)
 
     res.status(200)

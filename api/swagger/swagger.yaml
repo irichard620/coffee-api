@@ -677,6 +677,8 @@ paths:
             properties:
               display_name:
                 type: string
+              full_name:
+                type: string
       responses:
         "200":
           description: Success
@@ -1113,6 +1115,8 @@ definitions:
       auth_id:
         type: string
       display_name:
+        type: string
+      full_name:
         type: string
       email:
         type: string

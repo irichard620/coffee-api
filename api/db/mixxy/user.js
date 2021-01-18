@@ -13,6 +13,11 @@ function getUserDoc(userModel) {
   } else {
     dbDoc.display_name = ''
   }
+  if (userModel.full_name) {
+    dbDoc.full_name = userModel.full_name
+  } else {
+    dbDoc.full_name = ''
+  }
   if (userModel.email) {
     dbDoc.email = userModel.email.toLowerCase()
   } else {

@@ -10,7 +10,7 @@ async function getBlogsHandler(req, res) {
     // Get all active blogs
     const items = await collection
       .find({ status: 'ACTIVE' })
-      .sort({ created_at: 1 })
+      .sort({ created_at: -1 })
       .toArray()
     for (let item of items) {
       // Get author object
