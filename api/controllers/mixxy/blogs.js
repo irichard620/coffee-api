@@ -1,6 +1,6 @@
 const Sentry = require('@sentry/node')
 const { getDb } = require('../../db/db')
-const getMixxyRecipeDoc = require('../../db/mixxy/recipe')
+const { getMixxyRecipeDoc } = require('../../db/mixxy/recipe')
 
 async function getBlogsHandler(req, res) {
   const db = getDb()

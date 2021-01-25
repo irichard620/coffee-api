@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const axios = require('axios').default
 const uuidv4 = require('uuid/v4')
 const { getDb } = require('../../db/db')
-const getMixxyRecipeDoc = require('../../db/mixxy/recipe')
+const { getMixxyRecipeDoc } = require('../../db/mixxy/recipe')
 
 function createRecipeHandler(req, res) {
   if (req.uid !== 'JvhWbWy4mmMkjiB7rGpFjan4q603') {

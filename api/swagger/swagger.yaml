@@ -690,6 +690,31 @@ paths:
           schema:
             description: Error message
             type: string
+  /mixxy/users/backup:
+    x-swagger-router-controller: mixxy/users
+    post:
+      description: Sync recipes
+      operationId: syncUserRecipes
+      parameters:
+        - in: body
+          name: body
+          description: Location object
+          required: true
+          schema:
+            $ref: "#/definitions/MixxyUserBackupData"
+      responses:
+        "201":
+          description: Success
+          schema:
+            title: List of blogs
+            type: array
+            items:
+              $ref: "#/definitions/MixxyBlog"
+        default:
+          description: Error
+          schema:
+            description: Error message
+            type: string
   /swagger:
     x-swagger-pipe: swagger_raw
 
@@ -1058,6 +1083,71 @@ definitions:
         enum: ["ACTIVE", "INACTIVE"]
       device_token:
         type: string
+  MixxyUserBackupData:
+    properties:
+      recipes:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyUserRecipe"
+  MixxyUserRecipe:
+    required:
+      - recipe_name
+      - recipe_type
+      - base_spirit
+      - serving_glass
+      - total_ounces
+      - ingredients
+      - steps
+    properties:
+      recipe_id:
+        type: string
+        format: uuid
+      user_id:
+        type: string
+        format: uuid
+      recipe_name:
+        type: string
+      recipe_description:
+        type: string
+      recipe_type:
+        type: string
+      base_spirit:
+        type: string
+      serving_glass:
+        type: string
+      total_ounces:
+        type: number
+      steps:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyStep"
+      ingredients:
+        type: array
+        items:
+          $ref: "#/definitions/MixxyRecipeIngredient"
+      sponsor_card_id:
+        type: string
+        format: uuid
+      campaign_id:
+        type: string
+        format: uuid
+      master_list_id:
+        type: string
+        format: uuid
+      status:
+        type: string
+        enum: ["ACTIVE", "INACTIVE"]
+      favorited:
+        type: boolean
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      deleted_at:
+        type: string
+        format: date-time
   MixxyAuthor:
     required:
       - author_id

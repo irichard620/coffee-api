@@ -108,4 +108,51 @@ function getMixxyRecipeDoc(recipeModel, version) {
   return dbDoc
 }
 
-module.exports = getMixxyRecipeDoc
+function getMixxyUserRecipeDoc(recipeModel, userID) {
+  const dbDoc = {}
+  if (!recipeModel.recipe_id) {
+    dbDoc.recipe_id = uuidv4()
+  } else {
+    dbDoc.recipe_id = recipeModel.recipe_id
+  }
+  // Recipe metadata
+  dbDoc.recipe_name = recipeModel.recipe_name || ''
+  dbDoc.recipe_description = recipeModel.recipe_description || ''
+  dbDoc.recipe_type = recipeModel.recipe_type || ''
+  dbDoc.base_spirit = recipeModel.base_spirit || ''
+  dbDoc.serving_glass = recipeModel.serving_glass || ''
+  dbDoc.total_ounces = recipeModel.total_ounces || 0
+  dbDoc.image_link = recipeModel.image_link || ''
+
+  // Steps
+  const stepsToAdd = []
+  for (let i = 0; i < recipeModel.steps.length; i += 1) {
+    stepsToAdd.push(getStepDoc(recipeModel.steps[i]))
+  }
+  dbDoc.steps = stepsToAdd
+  // Ingredients
+  const ingredientsToAdd = []
+  for (let i = 0; i < recipeModel.ingredients.length; i += 1) {
+    ingredientsToAdd.push(getIngredientDoc(recipeModel.ingredients[i], '2.2.0'))
+  }
+  dbDoc.ingredients = ingredientsToAdd
+
+  // Recipe association
+  dbDoc.sponsor_card_id = recipeModel.sponsor_card_id || ''
+  dbDoc.campaign_id = recipeModel.campaign_id || ''
+  dbDoc.master_list_id = recipeModel.master_list_id || ''
+  dbDoc.status = recipeModel.status || 'INACTIVE'
+
+  // User specific
+  dbDoc.user_id = userID || null
+  dbDoc.favorited = recipeModel.favorited || false
+  dbDoc.deleted_at = recipeModel.deleted_at || null
+  dbDoc.updated_at = recipeModel.updated_at || null
+  dbDoc.created_at = recipeModel.created_at || null
+  return dbDoc
+}
+
+module.exports = {
+  getMixxyRecipeDoc,
+  getMixxyUserRecipeDoc,
+}

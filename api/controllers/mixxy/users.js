@@ -2,6 +2,7 @@ const Sentry = require('@sentry/node')
 const Filter = require('bad-words')
 const { getDb } = require('../../db/db')
 const getUserDoc = require('../../db/mixxy/user')
+const { getMixxyUserRecipeDoc } = require('../../db/mixxy/recipe')
 
 const filter = new Filter()
 
@@ -111,7 +112,81 @@ async function updateDisplayNameHandler(req, res) {
   }
 }
 
+async function syncUserRecipesHandler(req, res) {
+  try {
+    const db = getDb()
+    const userCollection = db.collection('mixxy_users')
+    const recipeCollection = db.collection('mixxy_user_recipes')
+
+    // If user, check if auth_id exists
+    if (!req.uid || req.uid === '') {
+      res.status(400)
+      res.json('Missing auth id')
+      return
+    }
+
+    // Get user
+    const user = await userCollection.findOne({
+      auth_id: req.uid,
+    })
+    if (!user) {
+      res.status(400)
+      res.json('No user found')
+      return
+    }
+
+    // Get recipes from db
+    const dbRecipes = await recipeCollection.find({ user_id: user.user_id }).toArray()
+    const dbRecipesDict = {}
+    for (let dbRecipe of dbRecipes) {
+      const dbRecipeDoc = getMixxyUserRecipeDoc(dbRecipe, user.user_id)
+      dbRecipesDict[dbRecipeDoc.recipe_id] = dbRecipe
+    }
+
+    // Recipes from app
+    const appRecipes = req.swagger.params.body.value.recipes || []
+
+    // Handle updating and deleting of existing ones
+    for (let i = 0; i < appRecipes.length; i++) {
+      const appRecipe = getMixxyUserRecipeDoc(appRecipes[i], user.user_id)
+      // Recipe in app but not DB - create it
+      if (!(appRecipe.recipe_id in dbRecipesDict)) {
+        await recipeCollection.insertOne(appRecipe)
+      } else {
+        const dbRecipe = dbRecipesDict[appRecipe.recipe_id]
+        // If app recipe more up to date, replace one in DB
+        // Otherwise, replace the recipe that we respond to app with
+        if (
+          (appRecipe.deleted_at && !dbRecipe.deleted_at) ||
+          (appRecipe.updated_at && appRecipe.updated_at > dbRecipe.updated_at)
+        ) {
+          await recipeCollection.replaceOne({ recipe_id: appRecipe.recipe_id }, appRecipe)
+        } else {
+          appRecipes[i] = dbRecipe
+        }
+        dbRecipesDict[appRecipe.recipe_id] = 0
+      }
+    }
+
+    // For all new ones where not set to 0, send back to app
+    Object.keys(dbRecipesDict).forEach((key) => {
+      if (dbRecipesDict[key] !== 0) {
+        // Add to response to app
+        appRecipes.push(dbRecipesDict[key])
+      }
+    })
+
+    res.status(201)
+    res.json(appRecipes)
+  } catch (err) {
+    Sentry.captureException(err)
+    res.status(500)
+    res.json(err)
+  }
+}
+
 module.exports = {
   createUser: createUserHandler,
   updateDisplayName: updateDisplayNameHandler,
+  syncUserRecipes: syncUserRecipesHandler,
 }

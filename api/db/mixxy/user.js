@@ -23,6 +23,7 @@ function getUserDoc(userModel) {
   } else {
     dbDoc.email = ''
   }
+  dbDoc.last_backup_at = userModel.last_backup_at || null
   return dbDoc
 }
 
