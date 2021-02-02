@@ -701,7 +701,13 @@ paths:
           description: Location object
           required: true
           schema:
-            $ref: "#/definitions/MixxyUserBackupData"
+            title: Recipe body
+            type: object
+            properties:
+              recipes:
+                type: array
+                items:
+                  $ref: "#/definitions/MixxyUserRecipe"
       responses:
         "201":
           description: Success
@@ -1083,12 +1089,6 @@ definitions:
         enum: ["ACTIVE", "INACTIVE"]
       device_token:
         type: string
-  MixxyUserBackupData:
-    properties:
-      recipes:
-        type: array
-        items:
-          $ref: "#/definitions/MixxyUserRecipe"
   MixxyUserRecipe:
     required:
       - recipe_name
